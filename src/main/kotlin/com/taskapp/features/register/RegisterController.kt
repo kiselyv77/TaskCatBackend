@@ -13,16 +13,15 @@ import io.ktor.server.response.*
 
 class RegisterController(
     private val call: ApplicationCall
-){
+) {
 
-    suspend fun registerNewUser(){
+    suspend fun registerNewUser() {
         val receive = call.receive<RegisterReceiveDTO>()
-        if (receive.login.isNotEmpty()&&receive.name.isNotEmpty()&&receive.password.isNotEmpty()){
+        if (receive.login.isNotEmpty() && receive.name.isNotEmpty() && receive.password.isNotEmpty()) {
             val userDTO = UsersTable.getUser(receive.login)
-            if(userDTO != null){
+            if (userDTO != null) {
                 call.respond(HttpStatusCode.BadRequest, "Пользователь с таким логином уже существует")
-            }
-            else{
+            } else {
                 UsersTable.insertUser(
                     UserDAO(
                         name = receive.name,
@@ -39,8 +38,7 @@ class RegisterController(
                 )
                 call.respond(RegisterResponseDTO(token = newToken))
             }
-        }
-        else{
+        } else {
             call.respond(HttpStatusCode.BadRequest, "Найдены пустве поля!")
         }
     }

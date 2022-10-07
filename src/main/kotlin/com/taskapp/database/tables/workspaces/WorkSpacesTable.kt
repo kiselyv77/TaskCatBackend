@@ -25,10 +25,12 @@ object WorkSpacesTable: Table() {
         }
     }
 
-    fun getWorkSpaces(): List<WorkSpacesDAO> {
+    fun getWorkSpaces(loginUser: String): List<WorkSpacesDAO> {
         return try {
             transaction {
-                WorkSpacesTable.selectAll().toList().map {
+                WorkSpacesTable.select{
+                    WorkSpacesTable.creator.eq(loginUser)
+                }.toList().map {
                     WorkSpacesDAO(
                         id = it[WorkSpacesTable.id],
                         name = it[name],
