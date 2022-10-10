@@ -5,11 +5,11 @@ import io.ktor.server.routing.*
 
 fun Application.configureGetWorkSpaceRouting() {
     routing {
-        post("/getWorkSpaces") {
+        get("/getWorkSpaces/{token}") {
             val getWorkSpaceController = GetWorkSpacesController(call)
             getWorkSpaceController.getWorkSpaces()
         }
-        post("/getWorkSpaceById") {
+        get("/getWorkSpaceById/{token}/{id}") {
             val getWorkSpaceController = GetWorkSpacesController(call)
             getWorkSpaceController.getWorkSpaceById()
         }

@@ -6,7 +6,7 @@ import io.ktor.server.routing.*
 
 fun Application.configureGetTasksFromWorkSpaceRouting (){
     routing {
-        get("/getTasksFromWorkSpace") {
+        get("/getTasksFromWorkSpace/{token}/{workSpaceId}") {
             val getTasksFromWorkSpaceController = GetTasksFromWorkSpaceController(call)
             getTasksFromWorkSpaceController.getTasksFromWorkSpace()
         }

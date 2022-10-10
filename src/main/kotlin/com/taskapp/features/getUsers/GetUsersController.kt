@@ -21,9 +21,9 @@ class GetUsersController(private val call: ApplicationCall) {
     }
 
     suspend fun getUserByToken() {
-        val receive = call.receive<GetUsersReceiveDTO>()
+        val token = call.parameters["token"]
         val tokens = TokensTable.getTokens()
-        val loginUser = tokens.filter { it.token == receive.value }
+        val loginUser = tokens.filter { it.token == token }
         val user = UsersTable.getUser(loginUser.first().login)
         if (user != null) {
             call.respond(

@@ -13,10 +13,9 @@ import io.ktor.server.response.*
 class GetWorkSpacesController(private val call: ApplicationCall) {
 
     suspend fun getWorkSpaces() {
-        val receive = call.receive<GetWorkSpacesReceiveDTO>()
-        println(receive.value)
+        val token = call.parameters["token"]
         val tokens = TokensTable.getTokens()
-        val loginUser = tokens.filter { it.token == receive.value }
+        val loginUser = tokens.filter { it.token == token }
         if(loginUser.isNotEmpty()){
             val workSpaces = WorkSpacesTable.getWorkSpaces(loginUser.first().login).map{ it ->
                 WorkSpacesResponseDTO(
@@ -35,11 +34,12 @@ class GetWorkSpacesController(private val call: ApplicationCall) {
     }
 
     suspend fun getWorkSpaceById(){
-        val receive = call.receive<GetWorkSpaceById>()
+        val token = call.parameters["token"]
+        val id = call.parameters["id"] ?: ""
         val tokens = TokensTable.getTokens()
-        val loginUser = tokens.filter { it.token == receive.token }
+        val loginUser = tokens.filter { it.token == token }
         if(loginUser.isNotEmpty()){
-            val workSpace = WorkSpacesTable.getWorkSpaceById(receive.workSpaceId)
+            val workSpace = WorkSpacesTable.getWorkSpaceById(id)
             if(workSpace != null)  {
                 // Получаю юзеров этого рабочего пространства
                 val users = UserToWorkSpacesTable.getUserFromWorkSpace(workSpace.id).map { it.userLogin }
@@ -62,5 +62,6 @@ class GetWorkSpacesController(private val call: ApplicationCall) {
         else{
             call.respond(HttpStatusCode.BadRequest, "Вы не авторизованны в системе!")
         }
+
     }
 }

@@ -13,6 +13,7 @@ import com.taskapp.database.tables.usersToTasks.UserToTaskDAO
 import com.taskapp.database.tables.usersToTasks.UserToTasksTable
 import com.taskapp.database.tables.usersToWorkSpaces.UserToWorkSpacesTable
 import com.taskapp.database.tables.workspaces.WorkSpacesTable
+import com.taskapp.features.getTasksFromWorkSpace.GetTasksFromWorkSpaceResponseDTO
 import com.taskapp.utils.generateRandomUUID
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -31,13 +32,14 @@ class AddTaskToWorkSpaceController(val call: ApplicationCall) {
                 .first { it.userLogin == loginUser.first().login }
             // сдесь проверим является ли пользователь отправляющий запрос создателем или администратором
             if (workSpace?.creator == loginUser.first().login || user.userStatusToWorkSpace == ADMIN_TYPE) {
+                val taskDAO = TaskDAO(
+                    id = newTaskId, // айди новой таски
+                    name = receive.name,
+                    description = receive.description,
+                    status = TaskStatus.INPROGRESS_TYPE
+                )
                 TasksTable.insertTable(
-                    TaskDAO(
-                        id = newTaskId, // айди новой таски
-                        name = receive.name,
-                        description = receive.description,
-                        status = TaskStatus.INPROGRESS_TYPE
-                    )
+                    taskDAO
                 )
                 TaskToWorkSpacesTable.insertTaskToWorkSpace(
                     TaskToWorkSpaceDAO(
@@ -52,7 +54,14 @@ class AddTaskToWorkSpaceController(val call: ApplicationCall) {
                         userStatusToTask = CREATOR_TYPE // его статус CREATOR_TYPE
                     )
                 )
-                call.respond("Вы добавили задачу $newTaskId в рабочее пространство ${receive.workSpaceId}")
+                call.respond(GetTasksFromWorkSpaceResponseDTO(
+                    id = taskDAO.id,
+                    name = taskDAO.name,
+                    description = taskDAO.description,
+                    taskStatus = taskDAO.status,
+                    users = emptyList(),
+                    subTask = emptyList()
+                ))
             } else {
                 call.respond(HttpStatusCode.BadRequest, "Вы не являетесь администратором этого рабочего пространства")
             }

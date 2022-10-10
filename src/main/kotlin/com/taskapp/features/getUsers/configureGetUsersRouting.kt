@@ -8,7 +8,7 @@ fun Application.configureGetUsersRouting() {
         get("/getUsers") {
             GetUsersController(call).getAllUsers()
         }
-        post("/getUserByToken") {
+        get("/getUserByToken/{token}") {
             GetUsersController(call).getUserByToken()
         }
     }
