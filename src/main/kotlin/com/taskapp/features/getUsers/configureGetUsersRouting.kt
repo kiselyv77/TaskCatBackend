@@ -11,5 +11,8 @@ fun Application.configureGetUsersRouting() {
         get("/getUserByToken/{token}") {
             GetUsersController(call).getUserByToken()
         }
+        get("/getUsersFromWorkSpace/{token}/{workSpaceId}") {
+            GetUsersController(call).getUsersFromWorkSpace()
+        }
     }
 }

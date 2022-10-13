@@ -2,6 +2,7 @@ package com.taskapp.database.tables.users
 
 import com.taskapp.database.tables.tasksToWorkSpaces.TaskToWorkSpaceDAO
 import com.taskapp.database.tables.tasksToWorkSpaces.TaskToWorkSpacesTable
+import com.taskapp.features.getWorkSpaces.GetWorkSpaceById
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
@@ -55,5 +56,9 @@ object UsersTable: Table() {
         }catch (e: Exception) {
             emptyList()
         }
+    }
+
+    fun getUsersFromWorkSpace(workSpaceId: String){
+
     }
 }

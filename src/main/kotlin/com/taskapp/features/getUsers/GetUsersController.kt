@@ -2,6 +2,7 @@ package com.taskapp.features.getUsers
 
 import com.taskapp.database.tables.tokens.TokensTable
 import com.taskapp.database.tables.users.UsersTable
+import com.taskapp.database.tables.usersToWorkSpaces.UserToWorkSpacesTable
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -39,6 +40,29 @@ class GetUsersController(private val call: ApplicationCall) {
     }
 
     suspend fun getUsersFromWorkSpace() {
+        val token = call.parameters["token"]
+        val workSpaceId = call.parameters["workSpaceId"] ?: ""
 
+        val tokens = TokensTable.getTokens()
+        val loginUser = tokens.filter { it.token == token }
+
+        if(loginUser.isNotEmpty()){
+            val users = UserToWorkSpacesTable.getUserFromWorkSpace(workSpaceId).map { userToWorkSpaceDAO->
+                val user = UsersTable.getUser(userToWorkSpaceDAO.userLogin)
+                if(user!=null){
+                    UsersResponseDTO(
+                        name = user.name,
+                        login = user.login,
+                    )
+                }
+                else{
+                    call.respond(HttpStatusCode.BadRequest, "Такого пользователя не существует")
+                }
+            }
+            call.respond(users)
+        }
+        else{
+            call.respond(HttpStatusCode.BadRequest, "Вы не авторизованны в системе!")
+        }
     }
 }

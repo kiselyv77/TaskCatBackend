@@ -1,5 +1,6 @@
 package com.taskapp.features.setTaskValues
 
+import com.taskapp.database.stringTypes.TaskStatus
 import com.taskapp.database.tables.tasks.TasksTable
 import com.taskapp.database.tables.tokens.TokensTable
 import io.ktor.http.*
@@ -9,15 +10,18 @@ import io.ktor.server.response.*
 
 class SetTaskValuesController(val call: ApplicationCall) {
     suspend fun setTaskStatus() {
-        val receive = call.receive<SetTaskValueReceiveDTO>()
+        val token = call.parameters["token"]
+        val taskId = call.parameters["taskId"]?:""
+        val newValue = call.parameters["newStatus"]?:TaskStatus.INPROGRESS_TYPE
         val tokens = TokensTable.getTokens()
-        val loginUser = tokens.filter { it.token == receive.token }
-        val task = TasksTable.getTaskById(receive.taskId)
+        val loginUser = tokens.filter { it.token == token }
+        val task = TasksTable.getTaskById(taskId)
         if(loginUser.isNotEmpty()){
             if(task!=null){
                 TasksTable.setTaskStatus(
-                    receive.newValue
+                    newValue
                 )
+                call.respond("SUCSEFULL")
             }
             else{
                 call.respond(HttpStatusCode.BadRequest, "Такой таски не существует")
@@ -29,15 +33,18 @@ class SetTaskValuesController(val call: ApplicationCall) {
 
     }
     suspend fun setTaskName() {
-        val receive = call.receive<SetTaskValueReceiveDTO>()
+        val token = call.parameters["token"]
+        val taskId = call.parameters["taskId"]?:""
+        val newValue = call.parameters["newValue"]?:""
         val tokens = TokensTable.getTokens()
-        val loginUser = tokens.filter { it.token == receive.token }
-        val task = TasksTable.getTaskById(receive.taskId)
+        val loginUser = tokens.filter { it.token == token }
+        val task = TasksTable.getTaskById(taskId)
         if(loginUser.isNotEmpty()){
             if(task!=null){
                 TasksTable.setTaskName(
-                    receive.newValue
+                    newValue
                 )
+                call.respond("SUCSEFULL")
             }
             else{
                 call.respond(HttpStatusCode.BadRequest, "Такой таски не существует")
@@ -49,15 +56,18 @@ class SetTaskValuesController(val call: ApplicationCall) {
 
     }
     suspend fun setTaskDescription() {
-        val receive = call.receive<SetTaskValueReceiveDTO>()
+        val token = call.parameters["token"]
+        val taskId = call.parameters["taskId"]?:""
+        val newValue = call.parameters["newValue"]?:""
         val tokens = TokensTable.getTokens()
-        val loginUser = tokens.filter { it.token == receive.token }
-        val task = TasksTable.getTaskById(receive.taskId)
+        val loginUser = tokens.filter { it.token == token }
+        val task = TasksTable.getTaskById(taskId)
         if(loginUser.isNotEmpty()){
             if(task!=null){
                 TasksTable.setTaskDescription(
-                    receive.newValue
+                    newValue
                 )
+                call.respond("SUCSEFULL")
             }
             else{
                 call.respond(HttpStatusCode.BadRequest, "Такой таски не существует")

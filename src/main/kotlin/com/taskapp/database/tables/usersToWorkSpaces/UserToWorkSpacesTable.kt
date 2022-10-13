@@ -1,6 +1,7 @@
 package com.taskapp.database.tables.usersToWorkSpaces
 
 import com.taskapp.database.stringTypes.UserTypes.MEMBER_TYPE
+import com.taskapp.database.tables.users.UserDAO
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
@@ -11,7 +12,7 @@ object UserToWorkSpacesTable:Table() {
     private val userLogin = varchar("userLogin", 50)
 
     fun insertUserToWorkSpace(userToWorkSpaceDAO: UserToWorkSpaceDAO){
-        transaction {
+       transaction {
             insert{
                 it[workSpacesId] = userToWorkSpaceDAO.workSpacesId
                 it[userLogin] = userToWorkSpaceDAO.userLogin

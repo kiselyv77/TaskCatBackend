@@ -5,13 +5,13 @@ import io.ktor.server.routing.*
 
 fun Application.configureSetTaskValuesRouting() {
     routing {
-        post("/setTaskStatus") {
+        post("/setTaskStatus/{token}/{taskId}/{newStatus}") {
             SetTaskValuesController(call).setTaskStatus()
         }
-        post("/setTaskName") {
+        post("/setTaskName/{token}/{taskId}/{newValue}") {
             SetTaskValuesController(call).setTaskName()
         }
-        post("/setTaskDescription") {
+        post("/setTaskDescription/{token}/{taskId}/{newValue}") {
             SetTaskValuesController(call).setTaskDescription()
         }
     }

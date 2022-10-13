@@ -3,9 +3,11 @@ package com.taskapp.features.addUserToWorkSpace
 import com.taskapp.database.tables.tokens.TokensTable
 import com.taskapp.database.stringTypes.UserTypes.ADMIN_TYPE
 import com.taskapp.database.stringTypes.UserTypes.MEMBER_TYPE
+import com.taskapp.database.tables.users.UsersTable
 import com.taskapp.database.tables.usersToWorkSpaces.UserToWorkSpaceDAO
 import com.taskapp.database.tables.usersToWorkSpaces.UserToWorkSpacesTable
 import com.taskapp.database.tables.workspaces.WorkSpacesTable
+import com.taskapp.features.getUsers.UsersResponseDTO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -38,7 +40,13 @@ class AddUserToWorkSpaceController(val call: ApplicationCall) {
                             userStatusToWorkSpace = MEMBER_TYPE // По умолчанию даем ему статус обычного пользователя
                         )
                     )
-                    call.respond("Вы пригласили пользователя ${receive.invitedUserLogin} в рабочее пространство ${receive.workSpaceId}")
+                    val invitedUser = UsersTable.getUser(receive.invitedUserLogin)
+
+                    //В случае успеха возвращаем пользователя которого пригласили
+                    call.respond(UsersResponseDTO(
+                        name = invitedUser?.name.toString(),
+                        login = invitedUser?.login.toString()
+                    ))
                 }
                 else{
                     call.respond(HttpStatusCode.BadRequest, "Этот пользователь уже есть в этом рабочем пространстве")
