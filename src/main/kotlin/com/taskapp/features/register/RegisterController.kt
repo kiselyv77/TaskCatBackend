@@ -4,7 +4,6 @@ import com.taskapp.database.tables.tokens.TokenDAO
 import com.taskapp.database.tables.tokens.TokensTable
 import com.taskapp.database.tables.users.UserDAO
 import com.taskapp.database.tables.users.UsersTable
-import com.taskapp.utils.ErrorResponseDTO
 import com.taskapp.utils.generateRandomUUID
 import io.ktor.http.*
 import io.ktor.server.application.*

@@ -3,6 +3,7 @@ package com.taskapp.features.setTaskValues
 import com.taskapp.database.stringTypes.TaskStatus
 import com.taskapp.database.tables.tasks.TasksTable
 import com.taskapp.database.tables.tokens.TokensTable
+import com.taskapp.utils.SucsefullResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -19,9 +20,10 @@ class SetTaskValuesController(val call: ApplicationCall) {
         if(loginUser.isNotEmpty()){
             if(task!=null){
                 TasksTable.setTaskStatus(
+                    taskId,
                     newValue
                 )
-                call.respond("SUCSEFULL")
+                call.respond(SucsefullResponse(message = "Sucsefull!)))"))
             }
             else{
                 call.respond(HttpStatusCode.BadRequest, "Такой таски не существует")

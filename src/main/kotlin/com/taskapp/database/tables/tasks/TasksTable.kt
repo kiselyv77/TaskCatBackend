@@ -1,6 +1,7 @@
 package com.taskapp.database.tables.tasks
 
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object TasksTable : Table() {
@@ -44,9 +45,9 @@ object TasksTable : Table() {
         }
     }
 
-    fun setTaskStatus(newStatus: String) {
+    fun setTaskStatus(taskId:String, newStatus: String) {
         transaction {
-            update {
+            update({TasksTable.id eq taskId}) {
                 it[status] = newStatus
             }
         }
