@@ -16,31 +16,34 @@ class GetWorkSpacesController(private val call: ApplicationCall) {
         val token = call.parameters["token"]
         val tokens = TokensTable.getTokens()
         val loginUser = tokens.filter { it.token == token }
-        if(loginUser.isNotEmpty()){
-            val workSpaces = WorkSpacesTable.getWorkSpaces(loginUser.first().login).map{ it ->
-                WorkSpacesResponseDTO(
-                    id = it.id,
-                    name = it.name,
-                    description = it.description,
-                    creator = it.creator,
-                )
+
+        if (loginUser.isNotEmpty()) {
+            val usersToWorkSpace = UserToWorkSpacesTable.getWorkSpacesForUser(loginUser.first().login)
+            println(usersToWorkSpace)
+            val workSpacesForUser = usersToWorkSpace.map {
+                val workSpace = WorkSpacesTable.getWorkSpaceById(it.workSpacesId)
+                    WorkSpacesResponseDTO(
+                        id = workSpace?.id.toString(),
+                        name = workSpace?.name.toString(),
+                        description = workSpace?.description.toString(),
+                        creator = workSpace?.creator.toString(),
+                    )
             }
             // Отвечаем клиенту
-            call.respond(workSpaces)
-        }
-        else{
+            call.respond(workSpacesForUser)
+        } else {
             call.respond(HttpStatusCode.BadRequest, "Вы не авторизованны в системе!")
         }
     }
 
-    suspend fun getWorkSpaceById(){
+    suspend fun getWorkSpaceById() {
         val token = call.parameters["token"]
         val id = call.parameters["id"] ?: ""
         val tokens = TokensTable.getTokens()
         val loginUser = tokens.filter { it.token == token }
-        if(loginUser.isNotEmpty()){
+        if (loginUser.isNotEmpty()) {
             val workSpace = WorkSpacesTable.getWorkSpaceById(id)
-            if(workSpace != null)  {
+            if (workSpace != null) {
                 // Получаю юзеров этого рабочего пространства
                 val users = UserToWorkSpacesTable.getUserFromWorkSpace(workSpace.id).map { it.userLogin }
                 // Получаю таски этого рабочего пространства
@@ -54,12 +57,10 @@ class GetWorkSpacesController(private val call: ApplicationCall) {
                     tasks = tasks
                 )
                 call.respond(workSpaceRespond)
-            }
-            else{
+            } else {
                 call.respond(HttpStatusCode.BadRequest, "Такого рабочего пространства нет")
             }
-        }
-        else{
+        } else {
             call.respond(HttpStatusCode.BadRequest, "Вы не авторизованны в системе!")
         }
 

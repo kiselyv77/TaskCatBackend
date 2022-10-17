@@ -11,6 +11,7 @@ object UserToWorkSpacesTable:Table() {
     private val workSpacesId= varchar("workSpacesId", 50)
     private val userLogin = varchar("userLogin", 50)
 
+
     fun insertUserToWorkSpace(userToWorkSpaceDAO: UserToWorkSpaceDAO){
        transaction {
             insert{
@@ -30,6 +31,22 @@ object UserToWorkSpacesTable:Table() {
                         userStatusToWorkSpace = MEMBER_TYPE
                     )
                 }.filter { it.workSpacesId == workId }
+            }
+        }catch (e: Exception) {
+            emptyList()
+        }
+    }
+
+    fun getWorkSpacesForUser(loginUser:String): List<UserToWorkSpaceDAO> {
+        return try {
+            transaction {
+                UserToWorkSpacesTable.selectAll().toList().map {
+                    UserToWorkSpaceDAO(
+                        workSpacesId = it[workSpacesId],
+                        userLogin = it[userLogin],
+                        userStatusToWorkSpace = MEMBER_TYPE
+                    )
+                }.filter { it.userLogin == loginUser }
             }
         }catch (e: Exception) {
             emptyList()
