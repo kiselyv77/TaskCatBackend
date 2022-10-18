@@ -1,8 +1,10 @@
 package com.taskapp.database.tables.tasks
 
+import com.taskapp.database.stringTypes.TaskStatus
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.logging.Filter
 
 object TasksTable : Table() {
     private val id = varchar("id", 50,)
@@ -24,7 +26,7 @@ object TasksTable : Table() {
     fun getTaskById(id: String): TaskDAO? {
         return try {
             transaction {
-                val userResultRow = TasksTable.select { TasksTable.id.eq(id) }.single()
+                val userResultRow = TasksTable.select { TasksTable.id.eq(id)}.single()
                 TaskDAO(
                     id = userResultRow[TasksTable.id],
                     name = userResultRow[name],

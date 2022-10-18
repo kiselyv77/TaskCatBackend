@@ -17,7 +17,7 @@ object TaskToWorkSpacesTable : Table() {
             }
         }
     }
-    fun getTasksFromWorkSpace(workSpaceId:String):List<TaskToWorkSpaceDAO> {
+    fun getTasksFromWorkSpace(workSpaceId: String):List<TaskToWorkSpaceDAO> {
         return try {
             transaction {
                 TaskToWorkSpacesTable.select{
