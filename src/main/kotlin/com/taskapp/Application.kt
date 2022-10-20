@@ -11,6 +11,7 @@ import com.taskapp.features.getWorkSpaces.configureGetWorkSpaceRouting
 import com.taskapp.features.login.configureLoginRouting
 import com.taskapp.features.register.configureRegisterRouting
 import com.taskapp.features.setTaskValues.configureSetTaskValuesRouting
+import com.taskapp.features.setUserValues.configureSetUserStatusRouting
 import io.ktor.server.engine.*
 import io.ktor.server.cio.*
 import com.taskapp.plugins.*
@@ -30,20 +31,22 @@ fun main() {
         // Регистрация и аунтификация
         configureRegisterRouting()
         configureLoginRouting()
-        configureAddWorkSpaceRouting()
+
         //workSpaces
+        configureAddWorkSpaceRouting()
         configureAddTaskToWorkSpaceRouting()
         configureGetWorkSpaceRouting()
         configureAddUserToTask()
         configureAddUserToWorkSpaceRouting()
 
+        // tasks
         configureGetTasksFromWorkSpaceRouting()
-
         configureAddSubTaskToTaskRouting()
-
         configureSetTaskValuesRouting()
 
+        //users
         configureGetUsersRouting()
+        configureSetUserStatusRouting()
 
     }.start(wait = true)
 }

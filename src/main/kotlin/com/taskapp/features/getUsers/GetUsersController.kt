@@ -5,6 +5,7 @@ import com.taskapp.database.tables.users.UsersTable
 import com.taskapp.database.tables.usersToWorkSpaces.UserToWorkSpacesTable
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.engine.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 
@@ -15,6 +16,7 @@ class GetUsersController(private val call: ApplicationCall) {
         val users = UsersTable.getUsers(receive.value).map {
             UsersResponseDTO(
                 name = it.name,
+                status = it.status,
                 login = it.login,
             )
         }
@@ -29,8 +31,9 @@ class GetUsersController(private val call: ApplicationCall) {
         if (user != null) {
             call.respond(
                 UsersResponseDTO(
-                    user.name,
-                    user.login
+                    name = user.name,
+                    status = user.status,
+                    login = user.login,
                 )
             )
         }
@@ -52,6 +55,7 @@ class GetUsersController(private val call: ApplicationCall) {
                 if(user!=null){
                     UsersResponseDTO(
                         name = user.name,
+                        status = user.status,
                         login = user.login,
                     )
                 }

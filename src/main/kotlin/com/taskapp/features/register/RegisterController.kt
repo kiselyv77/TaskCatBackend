@@ -1,5 +1,6 @@
 package com.taskapp.features.register
 
+import com.taskapp.database.stringTypes.UserStatus
 import com.taskapp.database.tables.tokens.TokenDAO
 import com.taskapp.database.tables.tokens.TokensTable
 import com.taskapp.database.tables.users.UserDAO
@@ -13,7 +14,6 @@ import io.ktor.server.response.*
 class RegisterController(
     private val call: ApplicationCall
 ) {
-
     suspend fun registerNewUser() {
         val receive = call.receive<RegisterReceiveDTO>()
         if (receive.login.isNotEmpty() && receive.name.isNotEmpty() && receive.password.isNotEmpty()) {
@@ -25,6 +25,7 @@ class RegisterController(
                     UserDAO(
                         name = receive.name,
                         login = receive.login,
+                        status = UserStatus.ONLINE_STATUS,
                         password = receive.password,
                     )
                 )

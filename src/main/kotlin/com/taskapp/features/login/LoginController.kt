@@ -1,5 +1,6 @@
 package com.taskapp.features.login
 
+import com.taskapp.database.stringTypes.UserStatus
 import com.taskapp.database.tables.tokens.TokenDAO
 import com.taskapp.database.tables.tokens.TokensTable
 import com.taskapp.database.tables.users.UsersTable
@@ -15,7 +16,6 @@ class LoginController(
     suspend fun login() {
         val receive = call.receive<LoginReceiveDTO>()
 
-
         val userDTO = UsersTable.getUser(receive.login)
         if (userDTO == null) {
             call.respond(HttpStatusCode.BadRequest, "пользователь не найден")
@@ -28,6 +28,7 @@ class LoginController(
                         token = token
                     )
                 )
+                UsersTable.setUserStatus(receive.login, UserStatus.ONLINE_STATUS)
                 call.respond(LoginResponseDTO(token = token))
             } else {
                 call.respond(HttpStatusCode.BadRequest, "Неправильный пароль")
