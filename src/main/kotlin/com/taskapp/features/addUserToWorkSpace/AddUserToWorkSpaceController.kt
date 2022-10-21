@@ -45,6 +45,7 @@ class AddUserToWorkSpaceController(val call: ApplicationCall) {
                     //В случае успеха возвращаем пользователя которого пригласили
                     call.respond(UsersResponseDTO(
                         name = invitedUser?.name.toString(),
+                        status = invitedUser?.name.toString(),
                         login = invitedUser?.login.toString()
                     ))
                 }
