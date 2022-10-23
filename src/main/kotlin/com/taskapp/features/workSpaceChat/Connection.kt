@@ -4,7 +4,11 @@ import com.taskapp.database.tables.users.UserDAO
 import io.ktor.websocket.*
 import java.util.concurrent.atomic.AtomicInteger
 
-class Connection(val session: DefaultWebSocketSession, userDAO: UserDAO) {
+class Connection(
+    val session: DefaultWebSocketSession,
+    val workSpaceId: String,
+    userDAO: UserDAO,
+    ) {
     companion object {
         val lastId = AtomicInteger(0)
     }

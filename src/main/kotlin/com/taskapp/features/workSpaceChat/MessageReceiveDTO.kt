@@ -2,13 +2,9 @@ package com.taskapp.features.workSpaceChat
 
 import kotlinx.serialization.Serializable
 
-
 @Serializable
-data class MessageResponseDTO(
-    val id:String,
-    val userName: String,
+data class MessageReceiveDTO(
     val sendingUser: String,
     val workSpaceId: String,
-    val dateTime:String,
-    val text: String
+    val text: String,
 )

@@ -12,6 +12,7 @@ import com.taskapp.features.login.configureLoginRouting
 import com.taskapp.features.register.configureRegisterRouting
 import com.taskapp.features.setTaskValues.configureSetTaskValuesRouting
 import com.taskapp.features.setUserValues.configureSetUserStatusRouting
+import com.taskapp.features.workSpaceChat.configureGetMessagesFromWorkSpace
 import com.taskapp.features.workSpaceChat.configureSockets
 import io.ktor.server.engine.*
 import io.ktor.server.cio.*
@@ -51,6 +52,9 @@ fun main() {
 
         //webSockets
         configureSockets()
+
+        //messages
+        configureGetMessagesFromWorkSpace()
 
     }.start(wait = true)
 }
