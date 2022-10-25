@@ -9,6 +9,4 @@ data class WorkSpacesResponseDTO(
     val name:String,
     val description:String,
     val creator:String,
-    val users: List<String> = emptyList(),
-    val tasks: List<String> = emptyList()
 )

@@ -59,8 +59,6 @@ class AddTaskToWorkSpaceController() {
                     name = taskDAO.name,
                     description = taskDAO.description,
                     taskStatus = taskDAO.status,
-                    users = emptyList(),
-                    subTask = emptyList()
                 )
                 )
             } else {

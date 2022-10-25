@@ -43,17 +43,11 @@ class GetWorkSpacesController() {
         if (loginUser.isNotEmpty()) {
             val workSpace = WorkSpacesTable.getWorkSpaceById(id)
             if (workSpace != null) {
-                // Получаю юзеров этого рабочего пространства
-                val users = UserToWorkSpacesTable.getUserFromWorkSpace(workSpace.id).map { it.userLogin }
-                // Получаю таски этого рабочего пространства
-                val tasks = TaskToWorkSpacesTable.getTasksFromWorkSpace(workSpace.id).map { it.taskId }
                 val workSpaceRespond = WorkSpacesResponseDTO(
                     id = workSpace.id,
                     name = workSpace.name,
                     description = workSpace.description,
                     creator = workSpace.creator,
-                    users = users,
-                    tasks = tasks
                 )
                 call.respond(workSpaceRespond)
             } else {

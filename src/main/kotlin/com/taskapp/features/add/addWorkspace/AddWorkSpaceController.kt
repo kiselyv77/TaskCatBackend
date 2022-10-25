@@ -46,8 +46,6 @@ class AddWorkSpaceController() {
                 name = workSpace.name,
                 description = workSpace.description,
                 creator = workSpace.creator,
-                users = emptyList(),
-                tasks = emptyList()
             )
             )
         }

@@ -7,8 +7,10 @@ fun Application.configureGetTasksFromWorkSpaceRouting (){
     val getTasksFromWorkSpaceController = GetTasksFromWorkSpaceController()
     routing {
         get("/getTasksFromWorkSpace/{token}/{workSpaceId}") {
-
             getTasksFromWorkSpaceController.getTasksFromWorkSpace(call)
+        }
+        get("/getTaskById/{token}/{id}") {
+            getTasksFromWorkSpaceController.getTaskById(call)
         }
     }
 }
