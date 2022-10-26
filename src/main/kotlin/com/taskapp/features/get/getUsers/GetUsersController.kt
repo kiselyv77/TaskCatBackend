@@ -56,6 +56,7 @@ class GetUsersController() {
                         name = user.name,
                         status = user.status,
                         login = user.login,
+                        userStatusToWorkSpace = userToWorkSpaceDAO.userStatusToWorkSpace
                     )
                 }
                 else{

@@ -9,5 +9,8 @@ fun Application.configureSetUserStatusRouting() {
         post("/setUserStatus/{token}/{newStatus}") {
             setUserValuesController.setUserStatus(call)
         }
+        post("/setUserStatusToWorkSpace/{token}/{userLogin}/{workSpaceId}/{newStatus}") {
+            setUserValuesController.setUserStatusToWorkSpace(call)
+        }
     }
 }

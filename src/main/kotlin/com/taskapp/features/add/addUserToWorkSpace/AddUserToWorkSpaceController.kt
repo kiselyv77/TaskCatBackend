@@ -32,24 +32,30 @@ class AddUserToWorkSpaceController() {
                 // Добовляем только если такого пользователя еще нет в этом рабочем пространстве
                 if(UserToWorkSpacesTable.getUserFromWorkSpace(receive.workSpaceId).none { it.userLogin == receive.invitedUserLogin }
                 ){
-                    // Вставляем пользователя в рабочее пространство
-                    UserToWorkSpacesTable.insertUserToWorkSpace(
-                        UserToWorkSpaceDAO(
-                            workSpacesId = receive.workSpaceId,
-                            userLogin = receive.invitedUserLogin,
-                            userStatusToWorkSpace = MEMBER_TYPE // По умолчанию даем ему статус обычного пользователя
-                        )
-                    )
                     val invitedUser = UsersTable.getUser(receive.invitedUserLogin)
+                    if(invitedUser != null){
+                        // Вставляем пользователя в рабочее пространство
+                        UserToWorkSpacesTable.insertUserToWorkSpace(
+                            UserToWorkSpaceDAO(
+                                workSpacesId = receive.workSpaceId,
+                                userLogin = receive.invitedUserLogin,
+                                userStatusToWorkSpace = MEMBER_TYPE // По умолчанию даем ему статус обычного пользователя
+                            )
+                        )
 
-                    //В случае успеха возвращаем пользователя которого пригласили
-                    call.respond(
-                        UsersResponseDTO(
-                        name = invitedUser?.name.toString(),
-                        status = invitedUser?.name.toString(),
-                        login = invitedUser?.login.toString()
-                    )
-                    )
+
+                        //В случае успеха возвращаем пользователя которого пригласили
+                        call.respond(
+                            UsersResponseDTO(
+                                name = invitedUser.name,
+                                status = invitedUser.name,
+                                login = invitedUser.login
+                            )
+                        )
+                    }
+                    else{
+                        call.respond(HttpStatusCode.BadRequest, "Пользователь не найден")
+                    }
                 }
                 else{
                     call.respond(HttpStatusCode.BadRequest, "Этот пользователь уже есть в этом рабочем пространстве")
