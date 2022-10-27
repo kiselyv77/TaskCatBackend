@@ -42,14 +42,14 @@ class AddUserToWorkSpaceController() {
                                 userStatusToWorkSpace = MEMBER_TYPE // По умолчанию даем ему статус обычного пользователя
                             )
                         )
-
-
+                        
                         //В случае успеха возвращаем пользователя которого пригласили
                         call.respond(
                             UsersResponseDTO(
                                 name = invitedUser.name,
-                                status = invitedUser.name,
-                                login = invitedUser.login
+                                status = invitedUser.status,
+                                login = invitedUser.login,
+                                userStatusToWorkSpace = MEMBER_TYPE
                             )
                         )
                     }
