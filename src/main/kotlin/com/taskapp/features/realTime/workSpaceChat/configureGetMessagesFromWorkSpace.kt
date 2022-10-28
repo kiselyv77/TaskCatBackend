@@ -6,7 +6,7 @@ import io.ktor.server.routing.*
 fun Application.configureGetMessagesFromWorkSpace() {
     val getMessagesController = GetMessagesController()
     routing {
-        get("/getMessagesFromWorkSpace/{token}/{workSpaceId}") {
+        get("/getMessagesFromWorkSpace/{token}/{workSpaceId}/{offset}") {
             getMessagesController.getMessagesFromWorkSpace(call)
         }
     }

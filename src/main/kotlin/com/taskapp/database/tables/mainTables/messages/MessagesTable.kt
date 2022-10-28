@@ -1,11 +1,9 @@
 package com.taskapp.database.tables.mainTables.messages
 
-import com.taskapp.database.tables.mainTables.tasks.TasksTable
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
-object MessagesTable :Table(){
+object MessagesTable : Table() {
     private val id = varchar("id", 50)
     private val text = varchar("text", 500)
     private val dateTime = varchar("dateTime", 30)
@@ -24,35 +22,37 @@ object MessagesTable :Table(){
         }
     }
 
-    fun getMessagesFromWorkSpace(workSpaceId: String):List<MessageDAO> {
+    fun getMessagesFromWorkSpace(workSpaceId: String, offset: Int): List<MessageDAO> {
         return try {
             transaction {
-                MessagesTable.select{
+                MessagesTable.select {
                     MessagesTable.workSpaceId.eq(workSpaceId)
-                }.toList().map {
-                    MessageDAO(
-                        id = it[MessagesTable.id],
-                        text = it[text],
-                        dateTime = it[dateTime],
-                        sendingUser =  it[sendingUser],
-                        workSpaceId = it[MessagesTable.workSpaceId],
-                    )
-                }
+                }.orderBy(MessagesTable.dateTime to SortOrder.DESC)
+                    .limit(10, offset.toLong())
+                    .toList().map {
+                        MessageDAO(
+                            id = it[MessagesTable.id],
+                            text = it[text],
+                            dateTime = it[dateTime],
+                            sendingUser = it[sendingUser],
+                            workSpaceId = it[MessagesTable.workSpaceId],
+                        )
+                    }
             }
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             emptyList()
         }
     }
 
-    fun setMessageText(messageId :String, newMessage:String) {
+    fun setMessageText(messageId: String, newMessage: String) {
         transaction {
-            update({ MessagesTable.id eq messageId}) {
+            update({ MessagesTable.id eq messageId }) {
                 it[MessagesTable.text] = newMessage
             }
         }
     }
 
-    fun deleteMessage (messageId :String) {
+    fun deleteMessage(messageId: String) {
         transaction {
             deleteWhere {
                 MessagesTable.id eq messageId

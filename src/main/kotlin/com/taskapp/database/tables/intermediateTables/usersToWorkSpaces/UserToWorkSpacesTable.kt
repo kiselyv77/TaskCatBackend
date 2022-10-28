@@ -60,8 +60,6 @@ object UserToWorkSpacesTable : Table() {
             }) {
                 it[UserToWorkSpacesTable.userStatusToWorkSpace] = newStatus
             }
-
-
         }
     }
 }
