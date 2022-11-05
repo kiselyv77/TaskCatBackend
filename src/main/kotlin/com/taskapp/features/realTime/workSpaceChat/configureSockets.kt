@@ -48,6 +48,7 @@ fun Application.configureSockets() {
                             text = messageDTO.text,
                             sendingUser = messageDTO.sendingUser,
                             workSpaceId = messageDTO.workSpaceId,
+                            type = messageDTO.type
                         )
                     )
 

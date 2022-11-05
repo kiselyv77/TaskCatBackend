@@ -7,6 +7,7 @@ object MessagesTable : Table() {
     private val id = varchar("id", 50)
     private val text = varchar("text", 500)
     private val dateTime = varchar("dateTime", 30)
+    private val type = varchar("type", 30)
     private val sendingUser = varchar("sendingUser", 25)
     private val workSpaceId = varchar("workSpaceId", 50)
 
@@ -34,6 +35,7 @@ object MessagesTable : Table() {
                             id = it[MessagesTable.id],
                             text = it[text],
                             dateTime = it[dateTime],
+                            type = it[type],
                             sendingUser = it[sendingUser],
                             workSpaceId = it[MessagesTable.workSpaceId],
                         )

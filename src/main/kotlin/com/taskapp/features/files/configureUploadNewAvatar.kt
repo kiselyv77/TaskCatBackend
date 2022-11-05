@@ -1,9 +1,11 @@
 package com.taskapp.features.files
 
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
+import com.taskapp.utils.SucsefullResponse
 import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.io.File
 
@@ -32,6 +34,7 @@ fun Application.configureUploadNewAvatar() {
                 }
                 // make sure to dispose of the part after use to prevent leaks
                 part.dispose()
+                call.respond(SucsefullResponse("SucsefullResponse"))
             }
         }
     }

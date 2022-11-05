@@ -27,6 +27,7 @@ class GetMessagesController() {
                     userName = user?.name.toString(),
                     sendingUser =  it.sendingUser,
                     workSpaceId = it.workSpaceId,
+                    type = it.type,
                     dateTime = it.dateTime,
                     text = it.text
                 )
