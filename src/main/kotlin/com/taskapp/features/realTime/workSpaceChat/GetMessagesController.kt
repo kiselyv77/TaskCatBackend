@@ -18,6 +18,10 @@ class GetMessagesController() {
         val tokens = TokensTable.getTokens()
         val loginUser = tokens.filter { it.token == token }
 
+        println(token)
+        println(workSpaceId)
+        println(offset)
+
         if(loginUser.isNotEmpty()){
             val messages = MessagesTable.getMessagesFromWorkSpace(workSpaceId, offset)
             val messagesResponseDTO = messages.map{
@@ -32,8 +36,7 @@ class GetMessagesController() {
                     text = it.text
                 )
             }
-            println(messagesResponseDTO)
-            //val cmp = compareBy<MessageDTO> { LocalDateTime.parse(it.dateTime, DateTimeFormatter.ISO_DATE_TIME) }
+            println(messages)
             call.respond(messagesResponseDTO)
         }
         else{

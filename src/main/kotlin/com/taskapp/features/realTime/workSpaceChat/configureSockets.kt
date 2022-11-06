@@ -41,6 +41,7 @@ fun Application.configureSockets() {
                 println("the user connected by number ${connections.count()}")
                 while (true) {
                     val messageDTO = receiveDeserialized<MessageDTO>()
+                    println(messageDTO)
                     MessagesTable.insertMessage(
                         MessageDAO(
                             id = messageDTO.id,

@@ -17,6 +17,7 @@ object MessagesTable : Table() {
                 it[id] = messageDAO.id
                 it[text] = messageDAO.text
                 it[dateTime] = messageDAO.dateTime
+                it[type] = messageDAO.type
                 it[sendingUser] = messageDAO.sendingUser
                 it[workSpaceId] = messageDAO.workSpaceId
             }
@@ -42,6 +43,7 @@ object MessagesTable : Table() {
                     }
             }
         } catch (e: Exception) {
+            println(e)
             emptyList()
         }
     }
