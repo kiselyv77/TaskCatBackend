@@ -7,5 +7,6 @@ data class MessageDAO(
     val text: String,
     val type:String,
     val sendingUser: String,
-    val workSpaceId: String
+    val workSpaceId: String,
+    val fileName: String
 )

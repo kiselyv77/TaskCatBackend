@@ -33,7 +33,8 @@ class GetMessagesController() {
                     workSpaceId = it.workSpaceId,
                     type = it.type,
                     dateTime = it.dateTime,
-                    text = it.text
+                    text = it.text,
+                    fileName = it.fileName
                 )
             }
             println(messages)

@@ -10,6 +10,7 @@ object MessagesTable : Table() {
     private val type = varchar("type", 30)
     private val sendingUser = varchar("sendingUser", 25)
     private val workSpaceId = varchar("workSpaceId", 50)
+    private val fileName = varchar("fileName", 30)
 
     fun insertMessage(messageDAO: MessageDAO) {
         transaction {
@@ -20,6 +21,7 @@ object MessagesTable : Table() {
                 it[type] = messageDAO.type
                 it[sendingUser] = messageDAO.sendingUser
                 it[workSpaceId] = messageDAO.workSpaceId
+                it[fileName] = messageDAO.fileName
             }
         }
     }
@@ -39,6 +41,7 @@ object MessagesTable : Table() {
                             type = it[type],
                             sendingUser = it[sendingUser],
                             workSpaceId = it[MessagesTable.workSpaceId],
+                            fileName = it[MessagesTable.fileName]
                         )
                     }
             }

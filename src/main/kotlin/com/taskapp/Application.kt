@@ -11,7 +11,9 @@ import com.taskapp.features.get.getWorkSpaces.configureGetWorkSpaceRouting
 import com.taskapp.features.auth.login.configureLoginRouting
 import com.taskapp.features.auth.register.configureRegisterRouting
 import com.taskapp.features.files.configureGetAvatar
+import com.taskapp.features.files.configureGetVoiceMessage
 import com.taskapp.features.files.configureUploadNewAvatar
+import com.taskapp.features.files.configureUploadVoiceMessage
 import com.taskapp.features.set.setTaskValues.configureSetTaskValuesRouting
 import com.taskapp.features.set.setUserValues.configureSetUserStatusRouting
 import com.taskapp.features.realTime.workSpaceChat.configureGetMessagesFromWorkSpace
@@ -61,6 +63,10 @@ fun main() {
         configureUploadNewAvatar()
 
         configureGetAvatar()
+
+        configureGetVoiceMessage()
+
+        configureUploadVoiceMessage()
 
     }.start(wait = true)
 }

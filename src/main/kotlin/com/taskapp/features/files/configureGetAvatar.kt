@@ -9,7 +9,7 @@ fun Application.configureGetAvatar() {
     routing {
         get("/getAvatar/{login}") {
             val login = call.parameters["login"]
-            val file = File("C:\\Users\\Mi\\Desktop\\serverFiles\\${login}_avatar.jpg")
+            val file = File("C:\\Users\\Mi\\Desktop\\serverFiles\\avatars\\${login}_avatar.jpg")
             call.respondFile(file)
         }
     }
