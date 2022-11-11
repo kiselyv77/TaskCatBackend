@@ -10,7 +10,7 @@ object MessagesTable : Table() {
     private val type = varchar("type", 30)
     private val sendingUser = varchar("sendingUser", 25)
     private val workSpaceId = varchar("workSpaceId", 50)
-    private val fileName = varchar("fileName", 30)
+    private val fileName = varchar("fileName", 50)
 
     fun insertMessage(messageDAO: MessageDAO) {
         transaction {

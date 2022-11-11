@@ -23,7 +23,7 @@ fun Application.configureUploadVoiceMessage() {
                     val fileName = part.originalFileName
                     // use InputStream from part to save file
                     part.streamProvider().use { its ->
-                        val file = File("C:\\Users\\Mi\\Desktop\\serverFiles\\voiceFiles\\loginUser\\$fileName")
+                        val file = File("C:\\Users\\Mi\\Desktop\\serverFiles\\voiceFiles\\$fileName")
                         // copy the stream to the file with buffering
                         file.outputStream().buffered().use {
                             // note that this is blocking
