@@ -1,4 +1,4 @@
-package com.taskapp.features.add.addNoteToTask
+package com.taskapp.features.realTime.taskNotes
 
 import kotlinx.serialization.Serializable
 
@@ -7,7 +7,8 @@ import kotlinx.serialization.Serializable
 data class NoteDTO(
     val id: String,
     val info: String,
-    val userId: String,
+    val loginUser: String,
     val taskId: String,
-    val attachmentFile: String
+    val attachmentFile: String,
+    val dateTime: String
 )

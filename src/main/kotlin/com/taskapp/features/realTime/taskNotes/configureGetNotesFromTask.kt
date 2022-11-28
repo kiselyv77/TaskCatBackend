@@ -1,13 +1,12 @@
-package com.taskapp.features.get.getNotesFromTask
+package com.taskapp.features.realTime.taskNotes
 
-import com.taskapp.features.add.addNoteToTask.AddNoteToTaskController
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 
 fun Application.configureGetNotesFromTask() {
     val getNotesFromTaskController = GetNotesFromTaskController()
     routing {
-        post("/addNoteToTask") {
+        get("/getNotesFromTask/{token}/{taskId}") {
             getNotesFromTaskController.getNotes(call)
         }
     }

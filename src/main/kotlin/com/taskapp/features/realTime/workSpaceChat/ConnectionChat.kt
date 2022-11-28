@@ -4,7 +4,7 @@ import com.taskapp.database.tables.mainTables.users.UserDAO
 import io.ktor.websocket.*
 import java.util.concurrent.atomic.AtomicInteger
 
-class Connection(
+class ConnectionChat(
     val session: DefaultWebSocketSession,
     val workSpaceId: String,
     userDAO: UserDAO,

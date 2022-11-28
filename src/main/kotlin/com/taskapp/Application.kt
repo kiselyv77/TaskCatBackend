@@ -14,10 +14,13 @@ import com.taskapp.features.files.configureGetAvatar
 import com.taskapp.features.files.configureGetVoiceMessage
 import com.taskapp.features.files.configureUploadNewAvatar
 import com.taskapp.features.files.configureUploadVoiceMessage
+import com.taskapp.features.realTime.configureWebSockets
+import com.taskapp.features.realTime.taskNotes.configureGetNotesFromTask
+import com.taskapp.features.realTime.taskNotes.configureNotes
 import com.taskapp.features.set.setTaskValues.configureSetTaskValuesRouting
 import com.taskapp.features.set.setUserValues.configureSetUserStatusRouting
 import com.taskapp.features.realTime.workSpaceChat.configureGetMessagesFromWorkSpace
-import com.taskapp.features.realTime.workSpaceChat.configureSockets
+import com.taskapp.features.realTime.workSpaceChat.configureWorkSpaceChat
 import io.ktor.server.engine.*
 import io.ktor.server.cio.*
 import com.taskapp.plugins.*
@@ -55,9 +58,12 @@ fun main() {
         configureSetUserStatusRouting()
 
         //webSockets
-        configureSockets()
+
+        configureWebSockets()
+
 
         //messages
+        configureWorkSpaceChat()
         configureGetMessagesFromWorkSpace()
 
         configureUploadNewAvatar()
@@ -67,6 +73,12 @@ fun main() {
         configureGetVoiceMessage()
 
         configureUploadVoiceMessage()
+
+        //notes
+
+        configureNotes()
+
+        configureGetNotesFromTask()
 
     }.start(wait = true)
 }
