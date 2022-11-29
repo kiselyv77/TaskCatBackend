@@ -26,7 +26,9 @@ class GetTasksFromWorkSpaceController() {
                         id = task.id,
                         name = task.name,
                         description = task.description,
-                        taskStatus = task.status
+                        taskStatus = task.status,
+                        deadLine = task.deadLine,
+                        creationDate = task.creationDate
                     )
                 }
                 else{
@@ -53,7 +55,9 @@ class GetTasksFromWorkSpaceController() {
                     id = task.id,
                     name = task.name,
                     description = task.description,
-                    taskStatus =  task.status
+                    taskStatus =  task.status,
+                    deadLine = task.deadLine,
+                    creationDate = task.creationDate
                 )
                 call.respond(taskRespond)
             } else {

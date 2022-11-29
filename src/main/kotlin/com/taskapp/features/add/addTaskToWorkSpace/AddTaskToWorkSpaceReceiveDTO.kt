@@ -8,5 +8,6 @@ data class AddTaskToWorkSpaceReceiveDTO(
     val token: String,
     val name: String,
     val description: String,
-    val workSpaceId: String
+    val workSpaceId: String,
+    val deadLine: String
 )

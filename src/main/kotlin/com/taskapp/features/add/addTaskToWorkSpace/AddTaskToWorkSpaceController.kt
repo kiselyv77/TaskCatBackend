@@ -1,5 +1,6 @@
 package com.taskapp.features.add.addTaskToWorkSpace
 
+import com.example.tasksapp.util.getIsoDateTime
 import com.taskapp.database.stringTypes.TaskStatus.INPROGRESS_TYPE
 import com.taskapp.database.tables.mainTables.tasks.TaskDAO
 import com.taskapp.database.tables.mainTables.tasks.TasksTable
@@ -35,7 +36,9 @@ class AddTaskToWorkSpaceController() {
                     id = newTaskId, // айди новой таски
                     name = receive.name,
                     description = receive.description,
-                    status = INPROGRESS_TYPE
+                    status = INPROGRESS_TYPE,
+                    deadLine = receive.deadLine,
+                    creationDate = getIsoDateTime()
                 )
                 TasksTable.insertTable(
                     taskDAO
@@ -55,11 +58,13 @@ class AddTaskToWorkSpaceController() {
                 )
                 call.respond(
                     GetTasksFromWorkSpaceResponseDTO(
-                    id = taskDAO.id,
-                    name = taskDAO.name,
-                    description = taskDAO.description,
-                    taskStatus = taskDAO.status,
-                )
+                        id = taskDAO.id,
+                        name = taskDAO.name,
+                        description = taskDAO.description,
+                        taskStatus = taskDAO.status,
+                        deadLine = taskDAO.deadLine,
+                        creationDate = taskDAO.creationDate
+                    )
                 )
             } else {
                 call.respond(HttpStatusCode.BadRequest, "Вы не являетесь администратором этого рабочего пространства")

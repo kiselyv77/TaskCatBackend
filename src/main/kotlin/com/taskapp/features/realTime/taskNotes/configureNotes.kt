@@ -29,6 +29,7 @@ fun Application.configureNotes() {
             val tokens = TokensTable.getTokens()
             val loginUser = tokens.filter { it.token == token }
             val user = UsersTable.getUser(loginUser.last().login)
+
             val thisConnection = ConnectionNotes(this, taskId, user!!)
             connections += thisConnection
             try {

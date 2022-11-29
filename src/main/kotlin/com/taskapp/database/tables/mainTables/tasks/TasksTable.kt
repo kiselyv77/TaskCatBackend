@@ -11,6 +11,8 @@ object TasksTable : Table() {
     private val name = varchar("name", 25)
     private val description = varchar("description", 1000)
     private val status = varchar("status", 25)
+    private val deadLine = varchar("deadLine", 30)
+    private val creationDate = varchar("creationDate", 30)
 
     fun insertTable(taskDAO: TaskDAO) {
         transaction {
@@ -19,6 +21,8 @@ object TasksTable : Table() {
                 it[name] = taskDAO.name
                 it[description] = taskDAO.description
                 it[status] = taskDAO.status
+                it[deadLine] = taskDAO.deadLine
+                it[creationDate] = taskDAO.creationDate
             }
         }
     }
@@ -31,7 +35,9 @@ object TasksTable : Table() {
                     id = userResultRow[TasksTable.id],
                     name = userResultRow[name],
                     description = userResultRow[description],
-                    status = userResultRow[status]
+                    status = userResultRow[status],
+                    deadLine = userResultRow[deadLine],
+                    creationDate = userResultRow[creationDate]
                 )
             }
         } catch (e: Exception) {
