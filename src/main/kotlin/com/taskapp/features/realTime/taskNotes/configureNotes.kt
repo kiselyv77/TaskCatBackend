@@ -36,12 +36,12 @@ fun Application.configureNotes() {
                 println("the user connected by number ${connections.count()}")
                 while (true) {
                     val noteDTO = receiveDeserialized<NoteDTO>()
-                    println(noteDTO)
                     NotesTable.addNote(
                         NoteDAO(
                             id = noteDTO.id,
                             info = noteDTO.info,
                             loginUser = noteDTO.loginUser,
+                            userName = noteDTO.userName,
                             taskId = noteDTO.taskId,
                             attachmentFile = noteDTO.attachmentFile,
                             dateTime = noteDTO.dateTime

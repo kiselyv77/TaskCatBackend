@@ -6,7 +6,7 @@ import io.ktor.server.routing.*
 fun Application.configureGetNotesFromTask() {
     val getNotesFromTaskController = GetNotesFromTaskController()
     routing {
-        get("/getNotesFromTask/{token}/{taskId}") {
+        get("/getNotesFromTask/{token}/{taskId}/{offset}") {
             getNotesFromTaskController.getNotes(call)
         }
     }

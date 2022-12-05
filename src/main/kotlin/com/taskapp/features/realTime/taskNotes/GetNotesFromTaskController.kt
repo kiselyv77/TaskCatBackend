@@ -12,20 +12,19 @@ class GetNotesFromTaskController {
         val token = call.parameters["token"]
         val taskId = call.parameters["taskId"] ?: ""
 
-        //val offset = call.parameters["offset"]?.toInt()?: 0
+        val offset = call.parameters["offset"]?.toInt()?: 0
 
         val tokens = TokensTable.getTokens()
         val loginUser = tokens.filter { it.token == token }
-        val userName = UsersTable.getUser(loginUser.last().login)?.name ?: "Ошибка"
 
         if(loginUser.isNotEmpty()){
-            val notes = NotesTable.getNotes(taskId)
+            val notes = NotesTable.getNotes(taskId, offset)
             val notesResponseDTO = notes.map{
                 NoteDTO(
                     id = it.id,
                     info = it.info,
                     loginUser = it.loginUser,
-                    userName = userName,
+                    userName = it.userName,
                     taskId = it.taskId,
                     attachmentFile = it.attachmentFile,
                     dateTime = it.dateTime
