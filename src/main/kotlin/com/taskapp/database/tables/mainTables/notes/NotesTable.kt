@@ -1,12 +1,5 @@
 package com.taskapp.database.tables.mainTables.notes
 
-import com.taskapp.database.tables.mainTables.messages.MessageDAO
-import com.taskapp.database.tables.mainTables.messages.MessagesTable
-import com.taskapp.database.tables.mainTables.subTasks.SubTasksTable
-import com.taskapp.database.tables.mainTables.tasks.TaskDAO
-import com.taskapp.database.tables.mainTables.tasks.TasksTable
-import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select

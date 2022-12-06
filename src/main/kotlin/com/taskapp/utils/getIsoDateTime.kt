@@ -1,4 +1,4 @@
-package com.example.tasksapp.util
+package com.taskapp.utils
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

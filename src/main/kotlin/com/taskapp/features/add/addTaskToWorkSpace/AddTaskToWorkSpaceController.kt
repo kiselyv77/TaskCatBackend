@@ -1,6 +1,6 @@
 package com.taskapp.features.add.addTaskToWorkSpace
 
-import com.example.tasksapp.util.getIsoDateTime
+import com.taskapp.utils.getIsoDateTime
 import com.taskapp.database.stringTypes.TaskStatus.INPROGRESS_TYPE
 import com.taskapp.database.tables.mainTables.tasks.TaskDAO
 import com.taskapp.database.tables.mainTables.tasks.TasksTable

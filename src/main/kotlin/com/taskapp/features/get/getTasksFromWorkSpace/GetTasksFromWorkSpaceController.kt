@@ -1,13 +1,14 @@
 package com.taskapp.features.get.getTasksFromWorkSpace
 
-import com.taskapp.database.tables.mainTables.tasks.TasksTable
+import com.taskapp.database.stringTypes.TaskStatus
 import com.taskapp.database.tables.intermediateTables.tasksToWorkSpaces.TaskToWorkSpacesTable
+import com.taskapp.database.tables.mainTables.tasks.TasksTable
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
-import com.taskapp.database.tables.mainTables.workspaces.WorkSpacesTable
-import com.taskapp.features.get.getWorkSpaces.WorkSpacesResponseDTO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class GetTasksFromWorkSpaceController() {
 
@@ -18,26 +19,37 @@ class GetTasksFromWorkSpaceController() {
         val tokens = TokensTable.getTokens()
         val loginUser = tokens.filter { it.token == token }
 
-        if(loginUser.isNotEmpty()){
+        if (loginUser.isNotEmpty()) {
             val tasks = TaskToWorkSpacesTable.getTasksFromWorkSpace(workSpaceId).map { taskToWorkSpaceDAO ->
                 val task = TasksTable.getTaskById(taskToWorkSpaceDAO.taskId)
-                if(task != null){
+
+                if (task != null) {
+                    val deadLine = LocalDateTime.parse(task.deadLine, DateTimeFormatter.ISO_DATE_TIME) // срок выполнения задачи
+                    val isOverdue = deadLine.isBefore(LocalDateTime.now()) // если срок выполнения был до сейчас
+                    val ifNeedMakeOverDue = isOverdue && task.status != TaskStatus.OVERDUE_TYPE
+
+                    if (ifNeedMakeOverDue) {
+                        println("Задача ${task.name} автоматически перемещена в долги")
+                        TasksTable.setTaskStatus(
+                            task.id,
+                            TaskStatus.OVERDUE_TYPE // меняем статус задачи на просрочено
+                        )
+                    }
+
                     GetTasksFromWorkSpaceResponseDTO(
                         id = task.id,
                         name = task.name,
                         description = task.description,
-                        taskStatus = task.status,
+                        taskStatus = if (ifNeedMakeOverDue) TaskStatus.OVERDUE_TYPE else task.status,
                         deadLine = task.deadLine,
                         creationDate = task.creationDate
                     )
-                }
-                else{
+                } else {
                     call.respond(HttpStatusCode.BadRequest, "Такой задачи не существует")
                 }
             }
             call.respond(tasks)
-        }
-        else{
+        } else {
             call.respond(HttpStatusCode.BadRequest, "Вы не авторизованны в системе!")
         }
 
@@ -55,7 +67,7 @@ class GetTasksFromWorkSpaceController() {
                     id = task.id,
                     name = task.name,
                     description = task.description,
-                    taskStatus =  task.status,
+                    taskStatus = task.status,
                     deadLine = task.deadLine,
                     creationDate = task.creationDate
                 )
