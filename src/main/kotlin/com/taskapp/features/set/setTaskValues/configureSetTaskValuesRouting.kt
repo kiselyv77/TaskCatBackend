@@ -15,5 +15,8 @@ fun Application.configureSetTaskValuesRouting() {
         post("/setTaskDescription/{token}/{taskId}/{newValue}") {
             setTaskValuesController.setTaskDescription(call)
         }
+        post ("/setTaskDeadLine/{token}/{taskId}/{newDeadLine}"){
+            setTaskValuesController.setTaskDeadLine(call)
+        }
     }
 }

@@ -69,6 +69,14 @@ object TasksTable : Table() {
         }
     }
 
+    fun setTaskDeadLine(taskId: String, newDeadLine: String){
+        transaction {
+            update({ TasksTable.id eq taskId }) {
+                it[deadLine] = newDeadLine
+            }
+        }
+    }
+
     fun deleteTask(taskId: String) {
         transaction {
             deleteWhere { TasksTable.id eq taskId }
