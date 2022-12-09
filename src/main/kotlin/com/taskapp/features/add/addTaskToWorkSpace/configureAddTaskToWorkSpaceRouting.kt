@@ -7,7 +7,6 @@ fun Application.configureAddTaskToWorkSpaceRouting() {
     val addTaskToWorkSpaceController = AddTaskToWorkSpaceController()
     routing {
         post("/addTaskToWorkSpace") {
-
             addTaskToWorkSpaceController.addTask(call)
         }
     }

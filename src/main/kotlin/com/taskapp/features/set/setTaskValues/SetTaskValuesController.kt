@@ -20,17 +20,6 @@ class SetTaskValuesController() {
         val task = TasksTable.getTaskById(taskId)
         if (loginUser.isNotEmpty()) {
             if (task != null) {
-//                val deadLine =
-//                    LocalDateTime.parse(task.deadLine, DateTimeFormatter.ISO_DATE_TIME) // срок выполнения задачи
-//                val isOverdue = deadLine.isBefore(LocalDateTime.now()) // если срок выполнения был до сейчас
-//                if (isOverdue) {
-//                    call.respond(HttpStatusCode.BadRequest, "Нельзя изменить так как истек срок выполнения")
-//                } else {
-//                    TasksTable.setTaskStatus(
-//                        taskId,
-//                        newValue
-//                    )
-//                }
                 TasksTable.setTaskStatus(
                     taskId,
                     newValue

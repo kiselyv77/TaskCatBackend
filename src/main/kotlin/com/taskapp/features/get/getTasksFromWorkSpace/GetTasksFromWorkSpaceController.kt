@@ -24,18 +24,6 @@ class GetTasksFromWorkSpaceController() {
                 val task = TasksTable.getTaskById(taskToWorkSpaceDAO.taskId)
 
                 if (task != null) {
-//                    val deadLine = LocalDateTime.parse(task.deadLine, DateTimeFormatter.ISO_DATE_TIME) // срок выполнения задачи
-//                    val isOverdue = deadLine.isBefore(LocalDateTime.now()) // если срок выполнения был до сейчас
-//                    val ifNeedMakeOverDue = isOverdue && task.status != TaskStatus.OVERDUE_TYPE
-
-//                    if (ifNeedMakeOverDue) {
-//                        println("Задача ${task.name} автоматически перемещена в долги")
-//                        TasksTable.setTaskStatus(
-//                            task.id,
-//                            TaskStatus.OVERDUE_TYPE // меняем статус задачи на просрочено
-//                        )
-//                    }
-
                     GetTasksFromWorkSpaceResponseDTO(
                         id = task.id,
                         name = task.name,

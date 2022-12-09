@@ -9,12 +9,14 @@ import com.taskapp.database.tables.intermediateTables.tasksToWorkSpaces.TaskToWo
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
 import com.taskapp.database.stringTypes.UserTypes.ADMIN_TYPE
 import com.taskapp.database.stringTypes.UserTypes.CREATOR_TYPE
+import com.taskapp.database.stringTypes.UserTypes.MEMBER_TYPE
 import com.taskapp.database.tables.intermediateTables.usersToTasks.UserToTaskDAO
 import com.taskapp.database.tables.intermediateTables.usersToTasks.UserToTasksTable
 import com.taskapp.database.tables.intermediateTables.usersToWorkSpaces.UserToWorkSpacesTable
 import com.taskapp.database.tables.mainTables.workspaces.WorkSpacesTable
 import com.taskapp.features.get.getTasksFromWorkSpace.GetTasksFromWorkSpaceResponseDTO
 import com.taskapp.utils.generateRandomUUID
+import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -32,6 +34,7 @@ class AddTaskToWorkSpaceController() {
                 .first { it.userLogin == loginUser.first().login }
             // сдесь проверим является ли пользователь отправляющий запрос создателем или администратором
             if (workSpace?.creator == loginUser.first().login || user.userStatusToWorkSpace == ADMIN_TYPE) {
+                println("!-----------------------------!---- ${receive.userList}")
                 val taskDAO = TaskDAO(
                     id = newTaskId, // айди новой таски
                     name = receive.name,
@@ -56,6 +59,15 @@ class AddTaskToWorkSpaceController() {
                         userStatusToTask = CREATOR_TYPE // его статус CREATOR_TYPE
                     )
                 )
+                receive.userList.forEach { login -> // добавим остальных
+                    UserToTasksTable.insertUserToTask(
+                        UserToTaskDAO(
+                            userLogin = login,
+                            taskId = newTaskId,
+                            userStatusToTask = MEMBER_TYPE // его статус MEMBER_TYPE
+                        )
+                    )
+                }
                 call.respond(
                     GetTasksFromWorkSpaceResponseDTO(
                         id = taskDAO.id,

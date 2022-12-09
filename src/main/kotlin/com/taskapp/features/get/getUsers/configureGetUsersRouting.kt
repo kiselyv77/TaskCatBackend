@@ -15,5 +15,8 @@ fun Application.configureGetUsersRouting() {
         get("/getUsersFromWorkSpace/{token}/{workSpaceId}") {
             getUsersController.getUsersFromWorkSpace(call)
         }
+        get("/getUsersFromTask/{token}/{taskId}"){
+            getUsersController.getUsersFromTask(call)
+        }
     }
 }

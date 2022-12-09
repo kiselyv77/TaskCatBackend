@@ -1,5 +1,6 @@
 package com.taskapp.features.get.getUsers
 
+import com.taskapp.database.tables.intermediateTables.usersToTasks.UserToTasksTable
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
 import com.taskapp.database.tables.mainTables.users.UsersTable
 import com.taskapp.database.tables.intermediateTables.usersToWorkSpaces.UserToWorkSpacesTable
@@ -68,5 +69,36 @@ class GetUsersController() {
         else{
             call.respond(HttpStatusCode.BadRequest, "Вы не авторизованны в системе!")
         }
+    }
+
+    suspend fun getUsersFromTask(call: ApplicationCall) {
+
+        val token = call.parameters["token"]
+        val taskId = call.parameters["taskId"] ?: ""
+
+        val tokens = TokensTable.getTokens()
+        val loginUser = tokens.filter { it.token == token }
+
+        if(loginUser.isNotEmpty()){
+            val users = UserToTasksTable.getUsersFromTask(taskId).map { userToTaskDAO->
+                val user = UsersTable.getUser(userToTaskDAO.userLogin)
+                if(user!=null){
+                    UsersResponseDTO(
+                        name = user.name,
+                        status = user.status,
+                        login = user.login,
+                        userStatusToTask = userToTaskDAO.userStatusToTask
+                    )
+                }
+                else{
+                    call.respond(HttpStatusCode.BadRequest, "Такого пользователя не существует")
+                }
+            }
+            call.respond(users)
+        }
+        else{
+            call.respond(HttpStatusCode.BadRequest, "Вы не авторизованны в системе!")
+        }
+
     }
 }
