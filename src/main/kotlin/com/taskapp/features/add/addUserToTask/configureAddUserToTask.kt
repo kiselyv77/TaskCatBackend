@@ -7,7 +7,7 @@ import io.ktor.server.routing.*
 fun Application.configureAddUserToTask() {
     val addUserToTaskController = AddUserToTaskController()
     routing {
-        post("/addUserToTask") {
+        post("/addUserToTask/{token}/{userLogin}/{taskId}") {
             addUserToTaskController.addTask(call)
         }
     }

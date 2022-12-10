@@ -1,6 +1,9 @@
 package com.taskapp.features.set.setTaskValues
 
 import com.taskapp.database.stringTypes.TaskStatus
+import com.taskapp.database.stringTypes.UserStatus
+import com.taskapp.database.stringTypes.UserTypes
+import com.taskapp.database.tables.intermediateTables.usersToTasks.UserToTasksTable
 import com.taskapp.database.tables.mainTables.tasks.TasksTable
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
 import com.taskapp.utils.SucsefullResponse
@@ -89,11 +92,19 @@ class SetTaskValuesController() {
         val task = TasksTable.getTaskById(taskId)
         if (loginUser.isNotEmpty()) {
             if (task != null) {
-                TasksTable.setTaskDeadLine(
-                    taskId,
-                    newDeadLine
-                )
-                call.respond(SucsefullResponse(message = "Sucsefull!)))"))
+                val usersStatusToTask = UserToTasksTable.getUsersFromTask(taskId)
+                    .lastOrNull() { it.userLogin == loginUser.last().login }?.userStatusToTask
+                if(usersStatusToTask == UserTypes.CREATOR_TYPE){
+                    TasksTable.setTaskDeadLine(
+                        taskId,
+                        newDeadLine
+                    )
+                    call.respond(SucsefullResponse(message = "Sucsefull!)))"))
+                }
+                else{
+                    call.respond(HttpStatusCode.BadRequest,"Изменить сроки может только содатель задачи")
+                }
+
             } else {
                 call.respond(HttpStatusCode.BadRequest, "Такой таски не существует")
             }
