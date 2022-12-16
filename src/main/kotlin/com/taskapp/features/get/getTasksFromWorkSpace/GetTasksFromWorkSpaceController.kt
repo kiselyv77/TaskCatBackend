@@ -1,7 +1,6 @@
 package com.taskapp.features.get.getTasksFromWorkSpace
 
 import com.taskapp.database.stringTypes.TaskStatus
-import com.taskapp.database.tables.intermediateTables.tasksToWorkSpaces.TaskToWorkSpacesTable
 import com.taskapp.database.tables.mainTables.tasks.TasksTable
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
 import io.ktor.http.*
@@ -20,21 +19,15 @@ class GetTasksFromWorkSpaceController() {
         val loginUser = tokens.filter { it.token == token }
 
         if (loginUser.isNotEmpty()) {
-            val tasks = TaskToWorkSpacesTable.getTasksFromWorkSpace(workSpaceId).map { taskToWorkSpaceDAO ->
-                val task = TasksTable.getTaskById(taskToWorkSpaceDAO.taskId)
-
-                if (task != null) {
-                    GetTasksFromWorkSpaceResponseDTO(
-                        id = task.id,
-                        name = task.name,
-                        description = task.description,
-                        taskStatus = task.status,
-                        deadLine = task.deadLine,
-                        creationDate = task.creationDate
-                    )
-                } else {
-                    call.respond(HttpStatusCode.BadRequest, "Такой задачи не существует")
-                }
+            val tasks = TasksTable.getTasksFromWorkSpace(workSpaceId).map { task ->
+                GetTasksFromWorkSpaceResponseDTO(
+                    id = task.id,
+                    name = task.name,
+                    description = task.description,
+                    taskStatus = task.status,
+                    deadLine = task.deadLine,
+                    creationDate = task.creationDate
+                )
             }
             call.respond(tasks)
         } else {

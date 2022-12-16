@@ -1,6 +1,5 @@
 package com.taskapp
 
-import com.taskapp.features.add.addSubTaskToTask.configureAddSubTaskToTaskRouting
 import com.taskapp.features.add.addTaskToWorkSpace.configureAddTaskToWorkSpaceRouting
 import com.taskapp.features.add.addUserToTask.configureAddUserToTask
 import com.taskapp.features.add.addUserToWorkSpace.configureAddUserToWorkSpaceRouting
@@ -10,6 +9,7 @@ import com.taskapp.features.get.getUsers.configureGetUsersRouting
 import com.taskapp.features.get.getWorkSpaces.configureGetWorkSpaceRouting
 import com.taskapp.features.auth.login.configureLoginRouting
 import com.taskapp.features.auth.register.configureRegisterRouting
+import com.taskapp.features.delete.deleteWorkSpace.configureDeleteWorkSpace
 import com.taskapp.features.files.configureGetAvatar
 import com.taskapp.features.files.configureGetVoiceMessage
 import com.taskapp.features.files.configureUploadNewAvatar
@@ -47,10 +47,10 @@ fun main() {
         configureGetWorkSpaceRouting()
         configureAddUserToTask()
         configureAddUserToWorkSpaceRouting()
+        configureDeleteWorkSpace()
 
         // tasks
         configureGetTasksFromWorkSpaceRouting()
-        configureAddSubTaskToTaskRouting()
         configureSetTaskValuesRouting()
 
         //users

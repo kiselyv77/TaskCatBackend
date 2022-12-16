@@ -4,8 +4,6 @@ import com.taskapp.utils.getIsoDateTime
 import com.taskapp.database.stringTypes.TaskStatus.INPROGRESS_TYPE
 import com.taskapp.database.tables.mainTables.tasks.TaskDAO
 import com.taskapp.database.tables.mainTables.tasks.TasksTable
-import com.taskapp.database.tables.intermediateTables.tasksToWorkSpaces.TaskToWorkSpaceDAO
-import com.taskapp.database.tables.intermediateTables.tasksToWorkSpaces.TaskToWorkSpacesTable
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
 import com.taskapp.database.stringTypes.UserTypes.ADMIN_TYPE
 import com.taskapp.database.stringTypes.UserTypes.CREATOR_TYPE
@@ -37,6 +35,7 @@ class AddTaskToWorkSpaceController() {
                 println("!-----------------------------!---- ${receive.userList}")
                 val taskDAO = TaskDAO(
                     id = newTaskId, // айди новой таски
+                    workSpaceId= receive.workSpaceId,
                     name = receive.name,
                     description = receive.description,
                     status = INPROGRESS_TYPE,
@@ -46,12 +45,7 @@ class AddTaskToWorkSpaceController() {
                 TasksTable.insertTable(
                     taskDAO
                 )
-                TaskToWorkSpacesTable.insertTaskToWorkSpace(
-                    TaskToWorkSpaceDAO(
-                        taskId = newTaskId, // рабочее пространство содержит таски //добавим
-                        workSpaceId = receive.workSpaceId
-                    )
-                )
+
                 UserToTasksTable.insertUserToTask(
                     UserToTaskDAO(
                         userLogin = loginUser.first().login,

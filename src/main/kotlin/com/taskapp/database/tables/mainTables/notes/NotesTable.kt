@@ -1,6 +1,9 @@
 package com.taskapp.database.tables.mainTables.notes
 
+import com.taskapp.database.tables.mainTables.tasks.TasksTable
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -47,6 +50,12 @@ object NotesTable : Table() {
             }
         } catch (e: Exception) {
             emptyList()
+        }
+    }
+
+    fun deleteAllNotesFromTask(taskId: String){
+        transaction {
+            deleteWhere { NotesTable.taskId eq taskId }
         }
     }
 }

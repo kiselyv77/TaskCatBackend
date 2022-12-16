@@ -1,6 +1,5 @@
 package com.taskapp.features.get.getWorkSpaces
 
-import com.taskapp.database.tables.intermediateTables.tasksToWorkSpaces.TaskToWorkSpacesTable
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
 import com.taskapp.database.tables.intermediateTables.usersToWorkSpaces.UserToWorkSpacesTable
 import com.taskapp.database.tables.mainTables.workspaces.WorkSpacesTable

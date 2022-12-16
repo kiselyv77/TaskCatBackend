@@ -66,4 +66,12 @@ object MessagesTable : Table() {
             }
         }
     }
+
+    fun deleteAllMessagesFromWorkSpace(workSpaceId: String){
+        transaction {
+            deleteWhere {
+                MessagesTable.workSpaceId eq workSpaceId
+            }
+        }
+    }
 }
