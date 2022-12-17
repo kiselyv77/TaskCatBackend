@@ -6,10 +6,7 @@ import io.ktor.server.routing.*
 fun Application.configureDeleteUserFromWorkSpace() {
     val deleteDeleteUserFromWorkSpace = DeleteUserFromWorkSpaceController()
     routing {
-
-
-        post("/deleteWorkSpace/{token}/{workSpaceId}") {
-
+        post("/deleteUserFromWorkSpace/{token}/{workSpaceId}/{userLogin}") {
             deleteDeleteUserFromWorkSpace.deleteUserFromWorkSpace(call)
         }
     }

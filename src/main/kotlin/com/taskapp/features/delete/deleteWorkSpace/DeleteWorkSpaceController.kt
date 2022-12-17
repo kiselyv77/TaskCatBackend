@@ -1,5 +1,6 @@
 package com.taskapp.features.delete.deleteWorkSpace
 
+import com.taskapp.database.stringTypes.UserTypes
 import com.taskapp.database.tables.intermediateTables.usersToTasks.UserToTasksTable
 import com.taskapp.database.tables.intermediateTables.usersToWorkSpaces.UserToWorkSpacesTable
 import com.taskapp.database.tables.mainTables.messages.MessagesTable
@@ -23,10 +24,10 @@ class DeleteWorkSpaceController() {
             val workSpaceDAO = WorkSpacesTable.getWorkSpaceById(workSpaceId)
             val usersToWorkSpaceDAO = UserToWorkSpacesTable.getUserFromWorkSpace(workSpaceId)
             if(workSpaceDAO != null){
-                if(workSpaceDAO.creator == loginUser.last().login || usersToWorkSpaceDAO.any { it.userLogin == loginUser.last().login }){
+                if(workSpaceDAO.creator == loginUser.last().login || usersToWorkSpaceDAO.last { it.userLogin == loginUser.last().login }.userStatusToWorkSpace == UserTypes.ADMIN_TYPE ){
                     TasksTable.getTasksFromWorkSpace(workSpaceId).forEach{ task -> // Получаем таски этого пространство
                         NotesTable.deleteAllNotesFromTask(task.id) // Удаляем все ноды в тасках
-                        UserToTasksTable.deleteAllFromWorkSpace(task.id) // Убираем всех пользователей из тасков
+                        UserToTasksTable.deleteAllFromTask(task.id) // Убираем всех пользователей из тасков
                     }
                     TasksTable.deleteAllTasksFromWorkSpace(workSpaceId)  // Удаляем все таски
                     MessagesTable.deleteAllMessagesFromWorkSpace(workSpaceId) // Удаляем все сообщения в пространстве

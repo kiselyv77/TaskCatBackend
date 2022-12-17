@@ -72,4 +72,12 @@ object UserToWorkSpacesTable : Table() {
             }
         }
     }
+
+    fun deleteUserFromWorkSpace(workSpaceId: String, userLogin: String){
+        transaction {
+            deleteWhere {
+                UserToWorkSpacesTable.userLogin eq userLogin and(UserToWorkSpacesTable.workSpacesId eq workSpaceId)
+            }
+        }
+    }
 }

@@ -1,11 +1,9 @@
 package com.taskapp.database.tables.intermediateTables.usersToTasks
 
-import com.taskapp.database.tables.mainTables.messages.MessagesTable
+import com.taskapp.database.tables.intermediateTables.usersToWorkSpaces.UserToWorkSpacesTable
+import com.taskapp.database.tables.mainTables.tasks.TasksTable
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object UserToTasksTable: Table() {
@@ -41,10 +39,18 @@ object UserToTasksTable: Table() {
         }
     }
 
-    fun deleteAllFromWorkSpace(taskId: String) {
+    fun deleteAllFromTask(taskId: String) {
         transaction {
             deleteWhere {
                 UserToTasksTable.taskId eq taskId
+            }
+        }
+    }
+
+    fun deleteUserFromTask(taskId: String, userLogin: String) {
+        transaction {
+            deleteWhere {
+                UserToTasksTable.userLogin eq userLogin and(UserToTasksTable.taskId eq taskId)
             }
         }
     }

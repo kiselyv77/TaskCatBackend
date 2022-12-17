@@ -7,10 +7,7 @@ fun Application.configureDeleteTask() {
     val deleteTaskController = DeleteTaskController()
     routing {
 
-
-        post("/deleteWorkSpace/{token}/{workSpaceId}") {
-
-
+        post("/deleteTask/{token}/{taskId}") {
             deleteTaskController.deleteTask(call)
         }
     }

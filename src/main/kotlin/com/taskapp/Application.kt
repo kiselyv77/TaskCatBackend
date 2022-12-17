@@ -9,6 +9,9 @@ import com.taskapp.features.get.getUsers.configureGetUsersRouting
 import com.taskapp.features.get.getWorkSpaces.configureGetWorkSpaceRouting
 import com.taskapp.features.auth.login.configureLoginRouting
 import com.taskapp.features.auth.register.configureRegisterRouting
+import com.taskapp.features.delete.deleteTask.configureDeleteTask
+import com.taskapp.features.delete.deleteUserFromTask.configureDeleteUserFromTask
+import com.taskapp.features.delete.deleteUserFromWorkSpace.configureDeleteUserFromWorkSpace
 import com.taskapp.features.delete.deleteWorkSpace.configureDeleteWorkSpace
 import com.taskapp.features.files.configureGetAvatar
 import com.taskapp.features.files.configureGetVoiceMessage
@@ -52,10 +55,13 @@ fun main() {
         // tasks
         configureGetTasksFromWorkSpaceRouting()
         configureSetTaskValuesRouting()
+        configureDeleteTask()
 
         //users
         configureGetUsersRouting()
         configureSetUserStatusRouting()
+        configureDeleteUserFromTask()
+        configureDeleteUserFromWorkSpace()
 
         //webSockets
 

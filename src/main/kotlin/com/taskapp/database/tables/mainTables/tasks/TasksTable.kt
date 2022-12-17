@@ -3,6 +3,7 @@ package com.taskapp.database.tables.mainTables.tasks
 import com.taskapp.database.stringTypes.TaskStatus
 import com.taskapp.database.tables.intermediateTables.usersToTasks.UserToTaskDAO
 import com.taskapp.database.tables.intermediateTables.usersToTasks.UserToTasksTable
+import com.taskapp.database.tables.intermediateTables.usersToWorkSpaces.UserToWorkSpacesTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -117,4 +118,6 @@ object TasksTable : Table() {
             deleteWhere { TasksTable.workSpaceId eq workSpaceId }
         }
     }
+
+
 }
