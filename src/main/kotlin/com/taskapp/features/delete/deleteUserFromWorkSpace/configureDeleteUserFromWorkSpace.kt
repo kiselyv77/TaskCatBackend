@@ -10,5 +10,4 @@ fun Application.configureDeleteUserFromWorkSpace() {
             deleteDeleteUserFromWorkSpace.deleteUserFromWorkSpace(call)
         }
     }
-
 }

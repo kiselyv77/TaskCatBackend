@@ -38,6 +38,23 @@ object UserToTasksTable: Table() {
             emptyList()
         }
     }
+    fun getTasksForUser(userLogin: String):List<UserToTaskDAO> {
+        return try {
+            transaction {
+                UserToTasksTable.select{
+                    UserToTasksTable.userLogin eq userLogin // Запрос в дазу банных
+                }.toList().map {
+                    UserToTaskDAO(
+                        userLogin = it[UserToTasksTable.userLogin],
+                        taskId = it[taskId],
+                        userStatusToTask = it[userStatusToTask]
+                    )
+                }
+            }
+        }catch (e: Exception) {
+            emptyList()
+        }
+    }
 
     fun deleteAllFromTask(taskId: String) {
         transaction {
@@ -54,4 +71,6 @@ object UserToTasksTable: Table() {
             }
         }
     }
+
+
 }
