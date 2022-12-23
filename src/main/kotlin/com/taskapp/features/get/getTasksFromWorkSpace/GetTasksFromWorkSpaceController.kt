@@ -12,27 +12,25 @@ import java.time.format.DateTimeFormatter
 
 class GetTasksFromWorkSpaceController() {
 
-    suspend fun getTasksFromWorkSpaceForUser(call: ApplicationCall){
+    suspend fun getTasksFromWorkSpaceForUser(call: ApplicationCall) {
         val token = call.parameters["token"]
         val workSpaceId = call.parameters["workSpaceId"] ?: ""
         val tokens = TokensTable.getTokens()
         val loginUser = tokens.filter { it.token == token }
 
         if (loginUser.isNotEmpty()) {
-            val tasksId = UserToTasksTable.getTasksForUser(loginUser.last().login).map{
+            val tasksId = UserToTasksTable.getTasksForUser(loginUser.last().login).map {
                 it.taskId
             }
-            val tasks = TasksTable.getTasksFromWorkSpace(workSpaceId).map { task ->
-                if(tasksId.contains(task.id)){
-                    GetTasksFromWorkSpaceResponseDTO(
-                        id = task.id,
-                        name = task.name,
-                        description = task.description,
-                        taskStatus = task.status,
-                        deadLine = task.deadLine,
-                        creationDate = task.creationDate
-                    )
-                }
+            val tasks = TasksTable.getTasksFromWorkSpace(workSpaceId).filter { tasksId.contains(it.id) }.map { task ->
+                GetTasksFromWorkSpaceResponseDTO(
+                    id = task.id,
+                    name = task.name,
+                    description = task.description,
+                    taskStatus = task.status,
+                    deadLine = task.deadLine,
+                    creationDate = task.creationDate
+                )
             }
             call.respond(tasks)
         } else {

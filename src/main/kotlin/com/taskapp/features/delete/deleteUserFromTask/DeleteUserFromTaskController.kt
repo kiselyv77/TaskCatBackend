@@ -21,10 +21,10 @@ class DeleteUserFromTaskController() {
         if (tokens.isNotEmpty()) {
             val taskDao = TasksTable.getTaskById(taskId)
             if (taskDao != null) {
-                val usersToTaskDAO = UserToWorkSpacesTable.getUserFromWorkSpace(taskId)
+                val usersToTaskDAO = UserToTasksTable.getUsersFromTask(taskId)
                 if (
-                    usersToTaskDAO.last { it.userLogin == tokens.last().login }.userStatusToWorkSpace == UserTypes.CREATOR_TYPE||
-                    tokens.last().login == userLogin
+                    usersToTaskDAO.lastOrNull() { it.userLogin == tokens.lastOrNull()?.login }?.userStatusToTask == UserTypes.CREATOR_TYPE||
+                    tokens.lastOrNull()?.login == userLogin
                 ) {
                     UserToTasksTable.deleteUserFromTask(taskId, userLogin)
                     call.respond(SucsefullResponse(message = "Sucsefull!)))"))
