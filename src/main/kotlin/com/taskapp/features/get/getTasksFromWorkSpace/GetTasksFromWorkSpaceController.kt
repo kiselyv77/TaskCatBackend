@@ -70,16 +70,22 @@ class GetTasksFromWorkSpaceController() {
         val loginUser = tokens.filter { it.token == token }
         if (loginUser.isNotEmpty()) {
             val task = TasksTable.getTaskById(id)
+            val userToTaskDAO = UserToTasksTable.getUsersFromTask(id)
             if (task != null) {
-                val taskRespond = GetTasksFromWorkSpaceResponseDTO(
-                    id = task.id,
-                    name = task.name,
-                    description = task.description,
-                    taskStatus = task.status,
-                    deadLine = task.deadLine,
-                    creationDate = task.creationDate
-                )
-                call.respond(taskRespond)
+                if (userToTaskDAO.map { it.userLogin }.contains(loginUser.last().login)) {
+                    val taskRespond = GetTasksFromWorkSpaceResponseDTO(
+                        id = task.id,
+                        name = task.name,
+                        description = task.description,
+                        taskStatus = task.status,
+                        deadLine = task.deadLine,
+                        creationDate = task.creationDate
+                    )
+                    call.respond(taskRespond)
+                } else {
+                    call.respond(HttpStatusCode.BadRequest, "У вас нет доступа к этой задаче")
+                }
+
             } else {
                 call.respond(HttpStatusCode.BadRequest, "Такой задачи нет")
             }

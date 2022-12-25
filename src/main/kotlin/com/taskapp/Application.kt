@@ -13,10 +13,7 @@ import com.taskapp.features.delete.deleteTask.configureDeleteTask
 import com.taskapp.features.delete.deleteUserFromTask.configureDeleteUserFromTask
 import com.taskapp.features.delete.deleteUserFromWorkSpace.configureDeleteUserFromWorkSpace
 import com.taskapp.features.delete.deleteWorkSpace.configureDeleteWorkSpace
-import com.taskapp.features.files.configureGetAvatar
-import com.taskapp.features.files.configureGetVoiceMessage
-import com.taskapp.features.files.configureUploadNewAvatar
-import com.taskapp.features.files.configureUploadVoiceMessage
+import com.taskapp.features.files.*
 import com.taskapp.features.realTime.configureWebSockets
 import com.taskapp.features.realTime.taskNotes.configureGetNotesFromTask
 import com.taskapp.features.realTime.taskNotes.configureNotes
@@ -85,6 +82,8 @@ fun main() {
         configureNotes()
 
         configureGetNotesFromTask()
+
+        configureUploadNoteAttachmentFile()
 
     }.start(wait = true)
 }
