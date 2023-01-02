@@ -1,0 +1,8 @@
+meta:
+  environment: jvm
+  toolchain:
+    name: gradle
+    version: 17
+
+run:
+  jarName: bag-end.jar
