@@ -85,5 +85,7 @@ fun main() {
 
         configureUploadNoteAttachmentFile()
 
+        configureGetNoteAttachmentFile()
+
     }.start(wait = true)
 }
