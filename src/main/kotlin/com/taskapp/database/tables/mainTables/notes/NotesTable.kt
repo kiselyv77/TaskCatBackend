@@ -14,7 +14,7 @@ object NotesTable : Table() {
     private val loginUser = NotesTable.varchar("loginUser", 50)
     private val userName = NotesTable.varchar("userName",50)
     private val taskId = NotesTable.varchar("taskId", 50)
-    private val attachmentFile = NotesTable.varchar("attachmentFile", 50)
+    private val attachmentFile = NotesTable.varchar("attachmentFile", 1000)
     private val dateTime = varchar("dateTime", 30)
 
     fun addNote(noteDAO: NoteDAO) {
