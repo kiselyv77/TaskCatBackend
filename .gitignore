@@ -4,6 +4,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+keys/
+
 ### STS ###
 .apt_generated
 .classpath
@@ -34,3 +36,4 @@ out/
 
 ### VS Code ###
 .vscode/
+/src/main/kotlin/com/taskapp/Secrets.kt

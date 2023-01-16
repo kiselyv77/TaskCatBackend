@@ -4,9 +4,6 @@ import com.taskapp.features.add.addTaskToWorkSpace.configureAddTaskToWorkSpaceRo
 import com.taskapp.features.add.addUserToTask.configureAddUserToTask
 import com.taskapp.features.add.addUserToWorkSpace.configureAddUserToWorkSpaceRouting
 import com.taskapp.features.add.addWorkspace.configureAddWorkSpaceRouting
-import com.taskapp.features.get.getTasksFromWorkSpace.configureGetTasksFromWorkSpaceRouting
-import com.taskapp.features.get.getUsers.configureGetUsersRouting
-import com.taskapp.features.get.getWorkSpaces.configureGetWorkSpaceRouting
 import com.taskapp.features.auth.login.configureLoginRouting
 import com.taskapp.features.auth.register.configureRegisterRouting
 import com.taskapp.features.delete.deleteTask.configureDeleteTask
@@ -14,25 +11,29 @@ import com.taskapp.features.delete.deleteUserFromTask.configureDeleteUserFromTas
 import com.taskapp.features.delete.deleteUserFromWorkSpace.configureDeleteUserFromWorkSpace
 import com.taskapp.features.delete.deleteWorkSpace.configureDeleteWorkSpace
 import com.taskapp.features.files.*
+import com.taskapp.features.get.getTasksFromWorkSpace.configureGetTasksFromWorkSpaceRouting
+import com.taskapp.features.get.getUsers.configureGetUsersRouting
+import com.taskapp.features.get.getWorkSpaces.configureGetWorkSpaceRouting
 import com.taskapp.features.realTime.configureWebSockets
 import com.taskapp.features.realTime.taskNotes.configureGetNotesFromTask
 import com.taskapp.features.realTime.taskNotes.configureNotes
-import com.taskapp.features.set.setTaskValues.configureSetTaskValuesRouting
-import com.taskapp.features.set.setUserValues.configureSetUserStatusRouting
 import com.taskapp.features.realTime.workSpaceChat.configureGetMessagesFromWorkSpace
 import com.taskapp.features.realTime.workSpaceChat.configureWorkSpaceChat
-import io.ktor.server.engine.*
-import io.ktor.server.cio.*
-import com.taskapp.plugins.*
+import com.taskapp.features.set.setTaskValues.configureSetTaskValuesRouting
+import com.taskapp.features.set.setUserValues.configureSetUserStatusRouting
+import com.taskapp.plugins.configureSerialization
+import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
 
-fun main() {
-    embeddedServer(CIO, port = 8080, host = "localhost") {
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
+
+@Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
+fun Application.module() {
         //подключение базы данных
         Database.connect(
-            user = "postgres",
-            url = "jdbc:postgresql://localhost:5432/taskappdb",
-            password = "danil2002gimbarr1980kryt",
+            user = Secrets.dbUserName,
+            url = Secrets.dbUri,
+            password = Secrets.dbPassword,
             driver = "org.postgresql.Driver"
         )
         //Конфигурирую тут все
@@ -86,6 +87,4 @@ fun main() {
         configureUploadNoteAttachmentFile()
 
         configureGetNoteAttachmentFile()
-
-    }.start(wait = true)
 }

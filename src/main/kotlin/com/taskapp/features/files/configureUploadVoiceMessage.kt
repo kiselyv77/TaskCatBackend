@@ -2,6 +2,8 @@ package com.taskapp.features.files
 
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
 import com.taskapp.utils.SucsefullResponse
+import com.taskapp.utils.getFileSeparator
+import com.taskapp.utils.getRootPackage
 import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -22,8 +24,9 @@ fun Application.configureUploadVoiceMessage() {
                 if(part is PartData.FileItem) {
                     val fileName = part.originalFileName
                     // use InputStream from part to save file
+                    val sep = getFileSeparator()
                     part.streamProvider().use { its ->
-                        val file = File("C:\\Users\\Mi\\Desktop\\serverFiles\\voiceFiles\\$fileName")
+                        val file = File("${getRootPackage()}${sep}voiceFiles${sep}$fileName")
                         // copy the stream to the file with buffering
                         file.outputStream().buffered().use {
                             // note that this is blocking

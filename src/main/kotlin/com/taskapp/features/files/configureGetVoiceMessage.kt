@@ -1,5 +1,7 @@
 package com.taskapp.features.files
 
+import com.taskapp.utils.getFileSeparator
+import com.taskapp.utils.getRootPackage
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -9,7 +11,8 @@ fun Application.configureGetVoiceMessage() {
     routing {
         get("/getVoiceMessage/{fileName}") {
             val fileName = call.parameters["fileName"]
-            val file = File("C:\\Users\\Mi\\Desktop\\serverFiles\\voiceFiles\\$fileName")
+            val sep = getFileSeparator()
+            val file = File("${getRootPackage()}${sep}voiceFiles${sep}$fileName")
             call.respondFile(file)
         }
     }

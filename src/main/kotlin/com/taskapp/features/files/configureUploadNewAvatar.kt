@@ -2,6 +2,8 @@ package com.taskapp.features.files
 
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
 import com.taskapp.utils.SucsefullResponse
+import com.taskapp.utils.getFileSeparator
+import com.taskapp.utils.getRootPackage
 import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -15,8 +17,8 @@ fun Application.configureUploadNewAvatar() {
             val token = call.parameters["token"]
             val tokens = TokensTable.getTokens()
             val loginUser = tokens.last { it.token == token }.login // по токену определяем логин
-
-            val file = File("C:\\Users\\Mi\\Desktop\\serverFiles\\avatars\\${loginUser}_avatar.jpg")
+            val sep = getFileSeparator()
+            val file = File("${getRootPackage()}${sep}avatars${sep}${loginUser}_avatar.jpg")
 
             val multipart = call.receiveMultipart()
 
