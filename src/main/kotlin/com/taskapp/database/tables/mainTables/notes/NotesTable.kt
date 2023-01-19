@@ -10,12 +10,12 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 object NotesTable : Table() {
     private val id = NotesTable.varchar("id", 50)
-    private val info = NotesTable.varchar("info", 50)
+    private val info = NotesTable.varchar("info", 500)
     private val loginUser = NotesTable.varchar("loginUser", 50)
     private val userName = NotesTable.varchar("userName",50)
     private val taskId = NotesTable.varchar("taskId", 50)
     private val attachmentFile = NotesTable.varchar("attachmentFile", 1000)
-    private val dateTime = varchar("dateTime", 30)
+    private val timeStamp = varchar("timeStamp", 30)
 
     fun addNote(noteDAO: NoteDAO) {
         transaction {
@@ -26,7 +26,7 @@ object NotesTable : Table() {
                 it[NotesTable.userName] = noteDAO.userName
                 it[NotesTable.taskId] = noteDAO.taskId
                 it[NotesTable.attachmentFile] = noteDAO.attachmentFile
-                it[NotesTable.dateTime] = noteDAO.dateTime
+                it[NotesTable.timeStamp] = noteDAO.timeStamp
             }
         }
     }
@@ -44,7 +44,7 @@ object NotesTable : Table() {
                         userName = it[NotesTable.userName],
                         taskId = it[NotesTable.taskId],
                         attachmentFile = it[NotesTable.attachmentFile],
-                        dateTime = it[NotesTable.dateTime]
+                        timeStamp = it[NotesTable.timeStamp]
                     )
                 }
             }

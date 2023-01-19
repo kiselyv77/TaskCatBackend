@@ -40,7 +40,7 @@ class AddTaskToWorkSpaceController() {
                     description = receive.description,
                     status = INPROGRESS_TYPE,
                     deadLine = receive.deadLine,
-                    creationDate = getIsoDateTime()
+                    creationDate = System.currentTimeMillis().toString()
                 )
                 TasksTable.insertTable(
                     taskDAO

@@ -4,6 +4,7 @@ import com.taskapp.database.tables.mainTables.messages.MessageDAO
 import com.taskapp.database.tables.mainTables.messages.MessagesTable
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
 import com.taskapp.database.tables.mainTables.users.UsersTable
+import com.taskapp.utils.getIsoDateTime
 import io.ktor.serialization.kotlinx.*
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
@@ -35,7 +36,7 @@ fun Application.configureWorkSpaceChat() {
                     MessagesTable.insertMessage(
                         MessageDAO(
                             id = messageDTO.id,
-                            dateTime = messageDTO.dateTime,
+                            timeStamp = messageDTO.timeStamp,
                             text = messageDTO.text,
                             sendingUser = messageDTO.sendingUser,
                             workSpaceId = messageDTO.workSpaceId,

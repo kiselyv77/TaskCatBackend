@@ -87,4 +87,7 @@ fun Application.module() {
         configureUploadNoteAttachmentFile()
 
         configureGetNoteAttachmentFile()
+
+        //downloadApk
+        configureGetAppApk()
 }

@@ -24,7 +24,7 @@ class AddUserToTaskController() {
         val invitedUser = UsersTable.getUser(userLogin)
         if(loginUser.isNotEmpty()){
             if(invitedUser != null){
-                if(UserToWorkSpacesTable.getUserFromWorkSpace(taskId).none { it.userLogin == invitedUser?.login }){
+                if(UserToWorkSpacesTable.getUserFromWorkSpace(taskId).none { it.userLogin == invitedUser.login }){
                     UserToTasksTable.insertUserToTask(
                         UserToTaskDAO(
                             userLogin = userLogin,

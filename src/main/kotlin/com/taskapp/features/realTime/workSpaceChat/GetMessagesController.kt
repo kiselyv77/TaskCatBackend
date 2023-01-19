@@ -32,7 +32,7 @@ class GetMessagesController() {
                     sendingUser =  it.sendingUser,
                     workSpaceId = it.workSpaceId,
                     type = it.type,
-                    dateTime = it.dateTime,
+                    timeStamp = it.timeStamp,
                     text = it.text,
                     fileName = it.fileName
                 )

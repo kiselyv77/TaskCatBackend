@@ -44,7 +44,7 @@ fun Application.configureNotes() {
                             userName = noteDTO.userName,
                             taskId = noteDTO.taskId,
                             attachmentFile = noteDTO.attachmentFile,
-                            dateTime = noteDTO.dateTime
+                            timeStamp = noteDTO.timeStamp
                         )
                     )
                     connections.forEach {

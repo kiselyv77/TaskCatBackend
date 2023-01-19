@@ -1,5 +1,6 @@
 package com.taskapp.features.get.getUsers
 
+import com.taskapp.database.stringTypes.UserTypes
 import com.taskapp.database.tables.intermediateTables.usersToTasks.UserToTasksTable
 import com.taskapp.database.tables.mainTables.tokens.TokensTable
 import com.taskapp.database.tables.mainTables.users.UsersTable
@@ -53,7 +54,7 @@ class GetUsersController() {
             val users = UserToWorkSpacesTable.getUserFromWorkSpace(workSpaceId).map { userToWorkSpaceDAO->
                 val user = UsersTable.getUser(userToWorkSpaceDAO.userLogin)
                 if(user!=null){
-                    UsersResponseDTO(
+                    return@map UsersResponseDTO(
                         name = user.name,
                         status = user.status,
                         login = user.login,
@@ -62,9 +63,11 @@ class GetUsersController() {
                 }
                 else{
                     call.respond(HttpStatusCode.BadRequest, "Такого пользователя не существует")
+                    return@map null
                 }
             }
-            call.respond(users)
+
+            call.respond(users.sortedWith(compareBy<UsersResponseDTO?>( { it?.userStatusToWorkSpace == UserTypes.CREATOR_TYPE }, { it?.name }).reversed()))
         }
         else{
             call.respond(HttpStatusCode.BadRequest, "Вы не авторизованны в системе!")

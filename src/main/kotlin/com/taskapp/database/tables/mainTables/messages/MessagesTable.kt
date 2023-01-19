@@ -6,18 +6,18 @@ import org.jetbrains.exposed.sql.transactions.transaction
 object MessagesTable : Table() {
     private val id = varchar("id", 50)
     private val text = varchar("text", 500)
-    private val dateTime = varchar("dateTime", 30)
+    private val timeStamp = varchar("timeStamp", 30)
     private val type = varchar("type", 30)
     private val sendingUser = varchar("sendingUser", 30)
     private val workSpaceId = varchar("workSpaceId", 50)
-    private val fileName = varchar("fileName", 50)
+    private val fileName = varchar("fileName", 100)
 
     fun insertMessage(messageDAO: MessageDAO) {
         transaction {
             insert {
                 it[id] = messageDAO.id
                 it[text] = messageDAO.text
-                it[dateTime] = messageDAO.dateTime
+                it[timeStamp] = messageDAO.timeStamp
                 it[type] = messageDAO.type
                 it[sendingUser] = messageDAO.sendingUser
                 it[workSpaceId] = messageDAO.workSpaceId
@@ -31,13 +31,13 @@ object MessagesTable : Table() {
             transaction {
                 MessagesTable.select {
                     MessagesTable.workSpaceId.eq(workSpaceId)
-                }.orderBy(MessagesTable.dateTime to SortOrder.DESC)
+                }.orderBy(MessagesTable.timeStamp to SortOrder.DESC)
                     .limit(10, offset.toLong())
                     .toList().map {
                         MessageDAO(
                             id = it[MessagesTable.id],
                             text = it[text],
-                            dateTime = it[dateTime],
+                            timeStamp = it[timeStamp],
                             type = it[type],
                             sendingUser = it[sendingUser],
                             workSpaceId = it[MessagesTable.workSpaceId],

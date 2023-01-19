@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 object WorkSpacesTable: Table() {
 
     private val id = varchar("id", 50)
-    private val name = varchar("name", 25)
+    private val name = varchar("name", 100)
     private val description = varchar("description", 1000)
     private val creator = varchar("creator", 25)
 

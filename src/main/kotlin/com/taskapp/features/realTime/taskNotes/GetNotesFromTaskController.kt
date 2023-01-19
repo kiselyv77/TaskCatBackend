@@ -27,7 +27,7 @@ class GetNotesFromTaskController {
                     userName = it.userName,
                     taskId = it.taskId,
                     attachmentFile = it.attachmentFile,
-                    dateTime = it.dateTime
+                    timeStamp = it.timeStamp
                 )
             }
             println(notes)

@@ -39,7 +39,6 @@ class GetTasksFromWorkSpaceController() {
     }
 
     suspend fun getTasksFromWorkSpace(call: ApplicationCall) {
-
         val token = call.parameters["token"]
         val workSpaceId = call.parameters["workSpaceId"] ?: ""
         val tokens = TokensTable.getTokens()

@@ -12,7 +12,7 @@ import java.util.logging.Filter
 object TasksTable : Table() {
     private val id = varchar("id", 50)
     private val workSpaceId = varchar("workSpaceId", 50)
-    private val name = varchar("name", 25)
+    private val name = varchar("name", 100)
     private val description = varchar("description", 1000)
     private val status = varchar("status", 25)
     private val deadLine = varchar("deadLine", 30)

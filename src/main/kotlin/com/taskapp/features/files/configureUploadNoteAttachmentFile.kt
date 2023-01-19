@@ -15,28 +15,28 @@ fun Application.configureUploadNoteAttachmentFile() {
     routing {
         post("/uploadNoteAttachmentFile/{token}") {
             val token = call.parameters["token"]
-            val tokens = TokensTable.getTokens()
-            val loginUser = tokens.last { it.token == token }.login // по токену определяем логин
-
-            val multipart = call.receiveMultipart()
-            multipart.forEachPart { part ->
-                // if part is a file (could be form item)
-                if(part is PartData.FileItem) {
-                    val fileName = part.originalFileName
-                    val sep = getFileSeparator()
-                    // use InputStream from part to save file
-                    part.streamProvider().use { its ->
-                        val file = File("${getRootPackage()}${sep}notesAttachmentFiles${sep}$fileName")
-                        // copy the stream to the file with buffering
-                        file.outputStream().buffered().use {
-                            // note that this is blocking
-                            its.copyTo(it)
+            val tokens = TokensTable.getTokens().filter { it.token == token }
+            if(tokens.isNotEmpty()){
+                val multipart = call.receiveMultipart()
+                multipart.forEachPart { part ->
+                    // if part is a file (could be form item)
+                    if(part is PartData.FileItem) {
+                        val fileName = part.originalFileName
+                        val sep = getFileSeparator()
+                        // use InputStream from part to save file
+                        part.streamProvider().use { its ->
+                            val file = File("${getRootPackage()}${sep}notesAttachmentFiles${sep}$fileName")
+                            // copy the stream to the file with buffering
+                            file.outputStream().buffered().use {
+                                // note that this is blocking
+                                its.copyTo(it)
+                            }
                         }
                     }
+                    // make sure to dispose of the part after use to prevent leaks
+                    part.dispose()
+                    call.respond(SucsefullResponse("SucsefullResponse"))
                 }
-                // make sure to dispose of the part after use to prevent leaks
-                part.dispose()
-                call.respond(SucsefullResponse("SucsefullResponse"))
             }
         }
     }
